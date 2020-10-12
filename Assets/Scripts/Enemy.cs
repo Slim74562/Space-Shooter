@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y < -5.0f)
         {
-            transform.Translate(new Vector3(Random.Range(-8f, 8f), 6.5, 0));
+            transform.Translate(new Vector3(Random.Range(-10f, 10f), 6.5f, 0));
         }
     }
 
