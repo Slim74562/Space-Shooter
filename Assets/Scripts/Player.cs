@@ -178,6 +178,23 @@ public class Player : MonoBehaviour
         _ammoCount = 15;
     }
 
+    public void ExtraLife()
+    {
+        _lives++;
+        switch (_lives)
+        {
+            case 3:
+                _leftEngine.SetActive(false);
+                break;
+            case 2:
+                _leftEngine.SetActive(true);
+                _rightEngine.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
+
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(_powerupDuration);
