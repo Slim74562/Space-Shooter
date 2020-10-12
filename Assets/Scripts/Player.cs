@@ -173,6 +173,11 @@ public class Player : MonoBehaviour
         _shieldHit = 0;
     }
 
+    public void ReloadAmmo()
+    {
+        _ammoCount = 15;
+    }
+
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(_powerupDuration);
