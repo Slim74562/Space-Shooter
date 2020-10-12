@@ -12,7 +12,11 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
     private BoxCollider2D _coll;
     private float _speed = 1;
-    private float _fireRate = 5.0f;
+    [SerializeField]
+    private float _maxFireRate = 5.0f;
+    [SerializeField]
+    private float _minFireRate = 3.0f;
+    private float _fireRate;
     private float _canFire = 1;    
     private bool _isDead = false;
     private bool _playerDead = false;
@@ -75,7 +79,7 @@ public class Enemy : MonoBehaviour
     {
         if (Time.time > _canFire && !_isDead)
         {            
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
             GameObject _Laser =  Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);

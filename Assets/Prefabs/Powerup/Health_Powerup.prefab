@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _downSpeed: 2
   _powerupID: 4
+  _powerupClip: {fileID: 8300000, guid: 473fd37e06ec0474b837029477f78332, type: 3}
 --- !u!50 &3127727565542370379
 Rigidbody2D:
   serializedVersion: 4

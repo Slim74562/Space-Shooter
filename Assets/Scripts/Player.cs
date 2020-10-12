@@ -181,11 +181,12 @@ public class Player : MonoBehaviour
     public void ExtraLife()
     {
         _lives++;
-        _uiManager.UpdateLives(_lives - 1);
+        Debug.Log("Extra Life Gained Lives = " + _lives);
         switch (_lives)
         {
             case 3:
                 _leftEngine.SetActive(false);
+                _uiManager.UpdateLives(_lives);
                 break;
             case 2:
                 _leftEngine.SetActive(true);
@@ -283,15 +284,7 @@ public class Player : MonoBehaviour
 
     public void SetScore(int points)
     {
-        _score += points;
-        if (_score % (500 / _pointCount) == 0)
-        {
-            _lives = 3;
-            _pointCount++;
-            _leftEngine.SetActive(false);
-            _rightEngine.SetActive(false);
-            _uiManager.UpdateLives(3);
-        }
+        _score += points;        
         _uiManager.UpdateScore(_score);
     }
 

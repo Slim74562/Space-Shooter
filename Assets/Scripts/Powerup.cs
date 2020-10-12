@@ -8,6 +8,8 @@ public class Powerup : MonoBehaviour
     private float _downSpeed = 2.0f;
     [SerializeField]
     private int _powerupID;
+    [SerializeField]
+    private AudioClip _powerupClip;
 
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class Powerup : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
+                AudioSource.PlayClipAtPoint(_powerupClip, transform.position);
                 switch (_powerupID)
                 {
                     case 0:
