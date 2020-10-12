@@ -39,10 +39,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _laserClip;
     [SerializeField]
+    private AudioClip _outOfAmmoClip;
+    [SerializeField]
     private float _powerupDuration = 10f;
     private bool _isDamageAvail = true;
     private GameManager _gameManager;
     private int _pointCount = 1;
+    private int _ammoCount = 15;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +80,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         FireLaser();
+        _uiManager.UpdateAmmo(_ammoCount);
     }
 
     public void Damage()
@@ -159,11 +163,12 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        {   
+        // Ammo Count Phase 1
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
+        {               
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);        
             _canFire = Time.time + _fireRate;
-
+            _ammoCount--;
             if (_isTripleShotActive)
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity); //quaternion.identity = default rotation
@@ -172,6 +177,12 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_LaserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity); //quaternion.identity = default rotation
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && _ammoCount == 0)
+        {
+            _audioSource.clip = _outOfAmmoClip;
+            _audioSource.volume = 0.15f;
+            _audioSource.Play();
         }
     }
 
@@ -209,6 +220,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11f, transform.position.y, 0);
         }
 
+        // Thrusters Phase 1
         if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive)
         {
             _speed = _thrustSpeed;
