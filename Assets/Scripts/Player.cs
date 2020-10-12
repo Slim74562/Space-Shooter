@@ -46,6 +46,9 @@ public class Player : MonoBehaviour
     private GameManager _gameManager;
     private int _pointCount = 1;
     private int _ammoCount = 15;
+    private SpriteRenderer _shieldRenderer;
+    private int _shieldHit = 0;
+    private int _shieldMaxHealth = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +75,12 @@ public class Player : MonoBehaviour
         if (_audioSource == null)
         {
             Debug.LogError("Explode Source on Player is Null");
+        }
+
+        _shieldRenderer = _shieldVisualizer.GetComponent<SpriteRenderer>();
+        if (_shieldRenderer == null)
+        {
+            Debug.LogError("Shield SpriteRenderer on Player is Null");
         }
     }
 
@@ -114,9 +123,23 @@ public class Player : MonoBehaviour
             }
             else
             {
+                // Shield Strength Phase 1
+                _shieldHit++;
+                switch (_shieldHit)
+                {
+                    case 3:
+                        _isShieldActive = false;
+                        _shieldVisualizer.SetActive(false);
+                        break;
+                    case 2:
+                        _shieldRenderer.color = Color.red;
+                        break;
+                    case 1:
+                        _shieldRenderer.color = Color.white;
+                        break;
+                }
                 Debug.Log("Shield Hit");
-                _isShieldActive = false;
-                _shieldVisualizer.SetActive(false);
+                
             }            
             StartCoroutine(DamagePowerDownRoutine());
         }       
@@ -145,7 +168,9 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _isShieldActive = true;
+        _shieldRenderer.color = Color.yellow;
         _shieldVisualizer.SetActive(true);
+        _shieldHit = 0;
     }
 
     IEnumerator TripleShotPowerDownRoutine()

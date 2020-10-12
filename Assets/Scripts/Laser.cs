@@ -53,6 +53,11 @@ public class Laser : MonoBehaviour
         _isEnemyLaser = true;
     }
 
+    public bool GetLaserType()
+    {
+        return _isEnemyLaser;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(_isEnemyLaser)
@@ -63,6 +68,5 @@ public class Laser : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        
     }
 }

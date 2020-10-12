@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y < -5.0f)
         {
-            transform.Translate(new Vector3(Random.Range(-8f, 8f), 5, 0));
+            transform.Translate(new Vector3(Random.Range(-8f, 8f), 6.5, 0));
         }
     }
 
@@ -104,17 +104,21 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Laser")
         {
-            _audioSource.Play();
-            Destroy(other.gameObject);
-            _coll.enabled = false; //can use Destroy(GetComponent<_coll>)
-            _isDead = true;
-            _speed = 0;
-            _anim.SetTrigger("OnEnemyDeath");
-            Destroy(this.gameObject, 2.5f);
-            if (_player != null)
+            if (!other.GetComponent<Laser>().GetLaserType())
             {
-                _player.SetScore(_enemyScoreValue);
+                _audioSource.Play();
+                Destroy(other.gameObject);
+                _coll.enabled = false; //can use Destroy(GetComponent<_coll>)
+                _isDead = true;
+                _speed = 0;
+                _anim.SetTrigger("OnEnemyDeath");
+                Destroy(this.gameObject, 2.5f);
+                if (_player != null)
+                {
+                    _player.SetScore(_enemyScoreValue);
+                }
             }
+            
         }
     }
 }

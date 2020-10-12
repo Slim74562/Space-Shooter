@@ -16,7 +16,7 @@ public class Powerup : MonoBehaviour
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
         if (transform.position.y < -5f)
         {
-            transform.Translate(new Vector3(Random.Range(-8f, 8f), 5, 0));
+            transform.Translate(new Vector3(Random.Range(-8f, 8f), 6.5f, 0));
         }
     }
 
