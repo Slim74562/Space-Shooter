@@ -163,8 +163,8 @@ MonoBehaviour:
   - {fileID: 1780551230948220067, guid: 331b7a32595753246807766a2061a009, type: 3}
   _minEnemySpawnTime: 3
   _maxEnemySpawnTime: 5
-  _minPowerupSpawnTime: 10
-  _maxPowerupSpawnTime: 30
+  _minPowerupSpawnTime: 5
+  _maxPowerupSpawnTime: 20
 --- !u!4 &40773411
 Transform:
   m_ObjectHideFlags: 0

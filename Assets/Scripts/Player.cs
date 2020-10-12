@@ -102,6 +102,7 @@ public class Player : MonoBehaviour
             if (!_isShieldActive)
             {
                 _lives -= 1;
+                _uiManager.UpdateLives(_lives);
                 Debug.Log("Lives Left = " + _lives);
 
                 switch (_lives)
@@ -119,7 +120,6 @@ public class Player : MonoBehaviour
                         _spawnManager.OnPlayerDeath();
                         break;
                 }
-                _uiManager.UpdateLives(_lives);
             }
             else
             {
@@ -181,6 +181,7 @@ public class Player : MonoBehaviour
     public void ExtraLife()
     {
         _lives++;
+        _uiManager.UpdateLives(_lives - 1);
         switch (_lives)
         {
             case 3:
@@ -189,6 +190,7 @@ public class Player : MonoBehaviour
             case 2:
                 _leftEngine.SetActive(true);
                 _rightEngine.SetActive(false);
+                _uiManager.UpdateLives(_lives);
                 break;
             default:
                 break;
