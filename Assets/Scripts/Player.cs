@@ -5,12 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //public or private ref and type (int, float, bool, string) for variable
-    [SerializeField] //before a variable allows for adjusting value in unity editor
     private float _speed = 5.5f;
-    private float _startingSpeed = 5.5f;
-    [SerializeField]
+    private float _normalSpeed = 5.5f;
+    private float _thrustSpeed = 10.0f;
     private float _boostSpeed = 15.0f;
-    [SerializeField]
+    [SerializeField] //before a private variable allows for adjusting value in unity editor
     private float _fireRate = 0.15f;
     private float _canFire = -1f;
     [SerializeField]
@@ -34,7 +33,7 @@ public class Player : MonoBehaviour
     private GameObject _leftEngine;
     [SerializeField]
     private GameObject _rightEngine;
-    private AudioSource _explodeSource;
+    private AudioSource _audioSource;
     [SerializeField]
     private AudioClip _explosionAudio;
     [SerializeField]
@@ -66,15 +65,10 @@ public class Player : MonoBehaviour
             Debug.LogError("The UI Manager is Null");
         }       
 
-        _explodeSource = GetComponent<AudioSource>();
-        if (_explodeSource == null)
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
         {
             Debug.LogError("Explode Source on Player is Null");
-        }
-        else
-        {
-            _explodeSource.clip = _explosionAudio;
-            _explodeSource.volume = .25f;
         }
     }
 
@@ -89,7 +83,9 @@ public class Player : MonoBehaviour
     {        
         if (_isDamageAvail)
         {
-            _explodeSource.Play();
+            _audioSource.clip = _explosionAudio;
+            _audioSource.volume = .25f;            
+            _audioSource.Play();
             if (!_isShieldActive)
             {
                 _lives -= 1;
@@ -158,13 +154,14 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_powerupDuration);
         _isSpeedBoostActive = false;
-        _speed = _startingSpeed;
+        _speed = _normalSpeed;
     }
 
     void FireLaser()
     {
-        if (Input.GetAxis("Fire1") == 1 && Time.time > _canFire)
-        {           
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        {   
+            AudioSource.PlayClipAtPoint(_laserClip, transform.position);        
             _canFire = Time.time + _fireRate;
 
             if (_isTripleShotActive)
@@ -175,7 +172,6 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_LaserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity); //quaternion.identity = default rotation
             }
-            AudioSource.PlayClipAtPoint(_laserClip, transform.position);
         }
     }
 
@@ -211,6 +207,16 @@ public class Player : MonoBehaviour
         else if (transform.position.x <= -11f)
         {
             transform.position = new Vector3(11f, transform.position.y, 0);
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive)
+        {
+            _speed = _thrustSpeed;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive)
+        {
+            _speed = _normalSpeed;
         }
     }
 

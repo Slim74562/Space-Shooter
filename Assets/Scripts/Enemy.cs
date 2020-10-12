@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
-
+    [SerializeField]
+    private int _enemyScoreValue = 10;
     [SerializeField]
     private AudioClip _laserClip;
 
@@ -92,6 +93,7 @@ public class Enemy : MonoBehaviour
             if (_player != null)
             {
                 _player.Damage();
+                _player.SetScore(_enemyScoreValue);
             }
             _coll.enabled = false;
             _isDead = true;
@@ -111,8 +113,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.5f);
             if (_player != null)
             {
-                int _worth = 10;
-                _player.SetScore(_worth);
+                _player.SetScore(_enemyScoreValue);
             }
         }
     }
