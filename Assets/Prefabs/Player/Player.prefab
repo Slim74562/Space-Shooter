@@ -197,14 +197,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0502b82fc9a696b4691340f4ca856f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 5.5
   _fireRate: 0.05
   _score: 0
   _lives: 3
   _LaserPrefab: {fileID: 3000865201412217571, guid: 7887cc58afba3394181cafe6ff94c1a6,
     type: 3}
-  _tripleShotPrefab: {fileID: 228573461589342868, guid: 1a50a3dad84a50b4ebc140bfcec1cdb0,
+  _tripleShotPrefab: {fileID: 228573461589342868, guid: a725171f1a4a50b4ba0e7ace473ae75e,
     type: 3}
   _shieldVisualizer: {fileID: 3291116728828169961}
+  _fireBall: {fileID: 4962300659069385378, guid: 1920734d463136a4298d9245f19258a5,
+    type: 3}
   _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
   _leftEngine: {fileID: 3291116728420852865}
@@ -212,6 +215,7 @@ MonoBehaviour:
   _explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _outOfAmmoClip: {fileID: 8300000, guid: eb949f37101498a4ca24a130827c80e2, type: 3}
+  _fireballClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
   _powerupDuration: 10
 --- !u!61 &3291116728166602999
 BoxCollider2D:

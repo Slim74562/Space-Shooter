@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
+    private Image _fireballImage;
+    [SerializeField]
     private Image _livesImg;
     [SerializeField]
     private Text _gameOverText;
@@ -52,8 +54,22 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateFireball(bool has)
+    {
+        if (has)
+        {
+            _fireballImage.enabled = true;
+        }
+        else
+        {
+            _fireballImage.enabled = false;
+        }
+
+    }
+
     void GameOverSequence()
     {
+
         _gameManager.GameOver();
         _gameOverText.gameObject.SetActive(true);
         _restartText.gameObject.SetActive(true);

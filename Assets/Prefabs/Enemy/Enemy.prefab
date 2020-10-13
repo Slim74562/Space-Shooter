@@ -51,7 +51,8 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 6885627168094761958}
   _LaserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
     type: 3}
-  _fireRate: 2
+  _maxFireRate: 5
+  _minFireRate: 3
   _explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _enemyScoreValue: 10
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}

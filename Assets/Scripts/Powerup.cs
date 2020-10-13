@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    [SerializeField]
-    private float _downSpeed = 2.0f;
+    private float _downSpeed = 1.5f;
     [SerializeField]
     private int _powerupID;
     [SerializeField]
     private AudioClip _powerupClip;
-
-
+    
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
         if (transform.position.y < -5f)
         {
-            transform.Translate(new Vector3(Random.Range(-8f, 8f), 6.5f, 0));
+            transform.position = new Vector3(Random.Range(-8f, 8f), 6.5f, 0);
         }
     }
 
@@ -46,6 +44,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case 4:
                         player.ExtraLife();
+                        break;
+                    case 5:
+                        player.Fireball();
                         break;
                 }
             }            

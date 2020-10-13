@@ -15,10 +15,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private float _maxEnemySpawnTime = 5.0f;
     [SerializeField]
-    private float _minPowerupSpawnTime = 20.0f;
+    private float _minPowerupSpawnTime = 5.0f;
     [SerializeField]
-    private float _maxPowerupSpawnTime = 60.0f;
+    private float _maxPowerupSpawnTime = 10.0f;
     private bool _stopSpawning = false;
+    private int _powerupCount = 0;
+    private int _maxPowerupCount = 5;
 
     public void StartSpawning()
     {
@@ -40,14 +42,23 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
         while (!_stopSpawning)
-        {            
+        {
+            int randomPowerUp = Random.Range(0, powerups.Length-1);
+            if (randomPowerUp == powerups.Length && _powerupCount < _maxPowerupCount)
+            {
+                randomPowerUp = Random.Range(0, powerups.Length - 1);
+                _powerupCount++;
+            }
+            else if (_powerupCount > _maxPowerupCount)
+            {
+                _powerupCount = 0;
+            } 
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 5, 0);
-            int randomPowerUp = Random.Range(0, powerups.Length);
             Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
-            float randomWait = Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime);
-            yield return new WaitForSeconds(randomWait);
+            yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
+
         }
     }
 
@@ -62,7 +73,7 @@ public class SpawnManager : MonoBehaviour
         }
         foreach (GameObject enemy in _enemies)
         {
-            Destroy(enemy);
+            enemy.GetComponent<Enemy>().KillEnemy();
         }
         foreach (GameObject powerup in _powerups)
         {

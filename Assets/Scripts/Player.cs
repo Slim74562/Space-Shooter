@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _shieldVisualizer;
+    [SerializeField]
+    private GameObject _fireballPrefab;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
@@ -42,6 +44,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _outOfAmmoClip;
     [SerializeField]
+    private AudioClip _fireballClip;
+    [SerializeField]
     private float _powerupDuration = 10f;
     private bool _isDamageAvail = true;
     private GameManager _gameManager;
@@ -55,6 +59,7 @@ public class Player : MonoBehaviour
     private float _startTime = 0f;
     private float _holdTime = 5.0f;
     private bool _isThrustCool = true;
+    private bool _haveFireball = false;
 
 
     // Start is called before the first frame update
@@ -64,9 +69,9 @@ public class Player : MonoBehaviour
         if (_gameManager == null)
         {
             Debug.LogError("The Game Manager is Null");
-        }        
+        }
 
-        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();        
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is Null");
@@ -76,7 +81,7 @@ public class Player : MonoBehaviour
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is Null");
-        }       
+        }
 
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
@@ -106,16 +111,19 @@ public class Player : MonoBehaviour
     }
 
     public void Damage()
-    {        
+    {
         if (_isDamageAvail)
         {
             _audioSource.clip = _explosionAudio;
-            _audioSource.volume = .25f;            
+            _audioSource.volume = .25f;
             _audioSource.Play();
             if (!_isShieldActive)
             {
                 _lives -= 1;
-                _uiManager.UpdateLives(_lives);
+                if (_lives <= 3)
+                {
+                    _uiManager.UpdateLives(_lives);
+                }
 
                 switch (_lives)
                 {
@@ -149,17 +157,17 @@ public class Player : MonoBehaviour
                     case 1:
                         _shieldRenderer.color = Color.white;
                         break;
-                }                
-            }            
+                }
+            }
             StartCoroutine(DamagePowerDownRoutine());
-        }       
+        }
     }
 
     IEnumerator DamagePowerDownRoutine()
     {
         _isDamageAvail = false;
         yield return new WaitForSeconds(2.0f);
-        _isDamageAvail = true;                        
+        _isDamageAvail = true;
     }
 
     public void TripleShotActive()
@@ -210,6 +218,7 @@ public class Player : MonoBehaviour
         }
     }
 
+
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(_powerupDuration);
@@ -251,10 +260,10 @@ public class Player : MonoBehaviour
 
         }
         if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
-        {           
-                _thrusters.transform.localPosition = new Vector3(0, -5);
-                _thrusters.transform.localScale = new Vector3(1, 2, 1);
-                _speed = _thrustSpeed;
+        {
+            _thrusters.transform.localPosition = new Vector3(0, -5);
+            _thrusters.transform.localScale = new Vector3(1, 2, 1);
+            _speed = _thrustSpeed;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
@@ -279,8 +288,8 @@ public class Player : MonoBehaviour
     {
         // Ammo Count Phase 1
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
-        {               
-            AudioSource.PlayClipAtPoint(_laserClip, transform.position);        
+        {
+            AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             _canFire = Time.time + _fireRate;
             _ammoCount--;
             if (_isTripleShotActive)
@@ -298,6 +307,21 @@ public class Player : MonoBehaviour
             _audioSource.volume = 0.15f;
             _audioSource.Play();
         }
+        if (Input.GetKeyDown(KeyCode.Z) && _haveFireball)
+        {
+            _audioSource.clip = _fireballClip;
+            _audioSource.volume = 0.5f;
+            _audioSource.Play();
+            Instantiate(_fireballPrefab, transform.position + new Vector3(0, 1.75f, 0), Quaternion.identity);
+            _haveFireball = false;
+            _uiManager.UpdateFireball(_haveFireball);
+        }
+    }
+
+    public void Fireball()
+    {
+        _haveFireball = true;
+        _uiManager.UpdateFireball(_haveFireball);
     }
 
     void CalculateMovement()
@@ -308,7 +332,7 @@ public class Player : MonoBehaviour
         //transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime); // can use transform.Translate(new Vector3(1, 0, 0)) to move right also
         //Time.deltaTime is real time seconds
 
-       // transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
+        // transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
 
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime); //efficient way to do
 
@@ -335,12 +359,12 @@ public class Player : MonoBehaviour
         }
 
         Thrusters();
-        
+
     }
 
     public void SetScore(int points)
     {
-        _score += points;        
+        _score += points;
         _uiManager.UpdateScore(_score);
     }
 
