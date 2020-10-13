@@ -47,7 +47,6 @@ public class SpawnManager : MonoBehaviour
             int randomPowerUp = Random.Range(0, powerups.Length);
             Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
             float randomWait = Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime);
-            Debug.Log("Powerup Wait: " + randomWait);
             yield return new WaitForSeconds(randomWait);
         }
     }

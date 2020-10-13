@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //public or private ref and type (int, float, bool, string) for variable
+    [SerializeField]
     private float _speed = 5.5f;
     private float _normalSpeed = 5.5f;
     private float _thrustSpeed = 10.0f;
@@ -49,6 +50,12 @@ public class Player : MonoBehaviour
     private SpriteRenderer _shieldRenderer;
     private int _shieldHit = 0;
     private int _shieldMaxHealth = 2;
+    private bool _isThrustAvail = true;
+    private GameObject _thrusters;
+    private float _startTime = 0f;
+    private float _holdTime = 5.0f;
+    private bool _isThrustCool = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,6 +89,12 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Shield SpriteRenderer on Player is Null");
         }
+
+        _thrusters = transform.GetChild(1).gameObject;
+        if (_thrusters == null)
+        {
+            Debug.LogError("thrusters on Player is Null");
+        }
     }
 
     // Update is called once per frame
@@ -103,7 +116,6 @@ public class Player : MonoBehaviour
             {
                 _lives -= 1;
                 _uiManager.UpdateLives(_lives);
-                Debug.Log("Lives Left = " + _lives);
 
                 switch (_lives)
                 {
@@ -137,9 +149,7 @@ public class Player : MonoBehaviour
                     case 1:
                         _shieldRenderer.color = Color.white;
                         break;
-                }
-                Debug.Log("Shield Hit");
-                
+                }                
             }            
             StartCoroutine(DamagePowerDownRoutine());
         }       
@@ -162,6 +172,8 @@ public class Player : MonoBehaviour
     {
         _isSpeedBoostActive = true;
         _speed = _boostSpeed;
+        _thrusters.transform.localPosition = new Vector3(0, -6.5f);
+        _thrusters.transform.localScale = new Vector3(1, 3, 1);
         StartCoroutine(SpeedPowerDownRoutine());
     }
 
@@ -209,6 +221,58 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_powerupDuration);
         _isSpeedBoostActive = false;
         _speed = _normalSpeed;
+        _thrusters.transform.localPosition = new Vector3(0, -3.2f);
+        _thrusters.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    IEnumerator ThrusterAvail()
+    {
+        //disable thrusters even though button may still be down
+        yield return new WaitForSeconds(5f);
+        DisableThrusters();
+    }
+
+    IEnumerator ThrusterCoolDown()
+    {
+        yield return new WaitForSeconds(10f);
+        _isThrustCool = true;
+        _isThrustAvail = true;
+        Debug.Log("Thrusters Available");
+    }
+
+    void Thrusters()
+    {
+        // Thrusters Phase 1
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustCool)
+        {
+
+            _isThrustCool = false;
+            StartCoroutine(ThrusterAvail());
+
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
+        {           
+                _thrusters.transform.localPosition = new Vector3(0, -5);
+                _thrusters.transform.localScale = new Vector3(1, 2, 1);
+                _speed = _thrustSpeed;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
+        {
+            DisableThrusters();
+        }
+    }
+
+    void DisableThrusters()
+    {
+
+        Debug.Log("Thrusters Unavailable");
+        _thrusters.transform.localPosition = new Vector3(0, -3.2f);
+        _thrusters.transform.localScale = new Vector3(1, 1, 1);
+        _speed = _normalSpeed;
+        _isThrustCool = false;
+        _isThrustAvail = false;
+        StartCoroutine(ThrusterCoolDown());
     }
 
     void FireLaser()
@@ -270,16 +334,8 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11f, transform.position.y, 0);
         }
 
-        // Thrusters Phase 1
-        if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive)
-        {
-            _speed = _thrustSpeed;
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive)
-        {
-            _speed = _normalSpeed;
-        }
+        Thrusters();
+        
     }
 
     public void SetScore(int points)
