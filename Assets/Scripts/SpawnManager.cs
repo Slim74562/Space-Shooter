@@ -26,6 +26,7 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        Debug.Log("powerups length: " + powerups.Length);
     }
 
     IEnumerator SpawnEnemyRoutine()  //using IEnumerator allows for use of yield keyword ** Coroutine
@@ -45,16 +46,19 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
         while (!_stopSpawning)
         {
-            int randomPowerUp = Random.Range(0, powerups.Length-1);
-            if (randomPowerUp == powerups.Length && _powerupCount < _maxPowerupCount)
+            int randomPowerUp = Random.Range(0, powerups.Length);
+            if (randomPowerUp == 5 && _powerupCount < _maxPowerupCount)
             {
-                randomPowerUp = Random.Range(0, powerups.Length - 1);
                 _powerupCount++;
+
+                Debug.Log("_powerupCount: " + _powerupCount);
+                randomPowerUp = Random.Range(0, powerups.Length - 1);
             }
-            else if (_powerupCount > _maxPowerupCount)
+            else if (randomPowerUp == 5 && _powerupCount >= _maxPowerupCount)
             {
+                Debug.Log("_powerupCount reset");
                 _powerupCount = 0;
-            } 
+            }
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 5, 0);
             Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));

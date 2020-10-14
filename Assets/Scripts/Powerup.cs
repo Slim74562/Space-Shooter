@@ -9,14 +9,40 @@ public class Powerup : MonoBehaviour
     private int _powerupID;
     [SerializeField]
     private AudioClip _powerupClip;
-    
+
+    private void Start()
+    {
+        switch (_powerupID)
+        {
+            case 0:
+                Debug.Log("Tripleshot");
+                break;
+            case 1:
+                Debug.Log("Speed");
+                break;
+            case 2:
+                Debug.Log("Shield");
+                break;
+            case 3:
+                Debug.Log("Ammo");
+                break;
+            case 4:
+                Debug.Log("Health");
+                break;
+            case 5:
+                Debug.Log("Fireball");
+                break;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
         if (transform.position.y < -5f)
         {
-            transform.position = new Vector3(Random.Range(-8f, 8f), 6.5f, 0);
+            //transform.position = new Vector3(Random.Range(-8f, 8f), 6.5f, 0);
+            Destroy(this.gameObject);
         }
     }
 
