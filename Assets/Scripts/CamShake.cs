@@ -7,7 +7,8 @@ using UnityEngine;
 public class CamShake : MonoBehaviour
 {
     private bool _isShaking = false;
-    private float _shakeDuration;
+    private float _shakeDuration = 0.5f;
+    private float _shakeMagnitude;
     private Vector3 initialPosition = new Vector3(0, 0, -10);
 
     // Update is called once per frame
@@ -22,13 +23,13 @@ public class CamShake : MonoBehaviour
                 transform.position = initialPosition;
             }
             StartCoroutine(ShakeforDuration());
-            transform.position = initialPosition + UnityEngine.Random.insideUnitSphere * 2;
+            transform.position = initialPosition + UnityEngine.Random.insideUnitSphere * _shakeMagnitude;
         }
     }
 
-    public void Shake(float duration)
+    public void Shake(float magnitude)
     {
         _isShaking = true;
-        _shakeDuration = duration;
+        _shakeMagnitude = magnitude;
     }
 }

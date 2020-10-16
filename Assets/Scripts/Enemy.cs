@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         FireLaser();
 
-        if (transform.position.y < -5.0f)
+        if (transform.position.y < -6.5f)
         {
             transform.position = new Vector3(Random.Range(-10f, 10f), 6.5f, 0);
         }

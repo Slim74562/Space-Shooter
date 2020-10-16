@@ -15,7 +15,7 @@ public class Powerup : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
-        if (transform.position.y < -5f)
+        if (transform.position.y < -7f)
         {
             //transform.position = new Vector3(Random.Range(-8f, 8f), 6.5f, 0);
             Destroy(this.gameObject);

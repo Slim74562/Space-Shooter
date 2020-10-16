@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     private bool _isThrustCool = true;
     private bool _haveFireball = false;
     [SerializeField]
-    private GameObject _camera;
+    private CamShake _camera;
 
 
     // Start is called before the first frame update
@@ -104,6 +104,7 @@ public class Player : MonoBehaviour
             Debug.LogError("thrusters on Player is Null");
         }
 
+        _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamShake>();
         if (_camera == null)
         {
             Debug.LogError("Main Camera on Player is Null");
@@ -120,12 +121,11 @@ public class Player : MonoBehaviour
 
     private void CamShake(float shakeDuration)
     {
-         
+        _camera.Shake(shakeDuration);
     }
 
     public void Damage()
     {
-        CamShake(2);
         if (_isDamageAvail)
         {
             _audioSource.clip = _explosionAudio;
@@ -133,6 +133,8 @@ public class Player : MonoBehaviour
             _audioSource.Play();
             if (!_isShieldActive)
             {
+
+                CamShake(2f);
                 _lives -= 1;
                 if (_lives <= 3)
                 {
@@ -157,6 +159,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                CamShake(.25f);
                 // Shield Strength Phase 1
                 _shieldHit++;
                 switch (_shieldHit)
