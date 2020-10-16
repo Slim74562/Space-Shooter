@@ -133,14 +133,10 @@ public class Player : MonoBehaviour
             _audioSource.Play();
             if (!_isShieldActive)
             {
-
                 CamShake(2f);
                 _lives -= 1;
-                if (_lives <= 3)
-                {
-                    _uiManager.UpdateLives(_lives);
-                }
-
+                _uiManager.UpdateLives(_lives);
+                
                 switch (_lives)
                 {
                     case 2:
@@ -218,21 +214,20 @@ public class Player : MonoBehaviour
     public void ExtraLife()
     {
         _lives++;
-        Debug.Log("Extra Life Gained Lives = " + _lives);
         switch (_lives)
         {
             case 3:
                 _leftEngine.SetActive(false);
-                _uiManager.UpdateLives(_lives);
                 break;
             case 2:
                 _leftEngine.SetActive(true);
                 _rightEngine.SetActive(false);
-                _uiManager.UpdateLives(_lives);
                 break;
             default:
                 break;
         }
+
+        _uiManager.UpdateLives(_lives);
     }
 
 

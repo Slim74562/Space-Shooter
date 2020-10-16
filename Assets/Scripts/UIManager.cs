@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
     [SerializeField]
     private Text _ammoText;
+    [SerializeField]
+    private Text _liveText;
     private GameManager _gameManager;
 
     // Start is called before the first frame update
@@ -28,6 +30,8 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        _liveText.enabled = false;
 
         if (_gameManager == null)
         {
@@ -47,7 +51,19 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int currentLives)
     {
-        _livesImg.sprite = _liveSprites[currentLives];
+        
+        if (currentLives > 0 && currentLives <= 3)
+        {            
+            _livesImg.sprite = _liveSprites[currentLives];
+            _liveText.enabled = false;
+            _livesImg.enabled = true;
+        }
+        else if (currentLives > 3)
+        {
+            _liveText.text = "Lives: " + currentLives;
+            _livesImg.enabled = false;
+            _liveText.enabled = true;            
+        }
         if (currentLives == 0)
         {
             GameOverSequence();
