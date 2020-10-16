@@ -1572,7 +1572,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "  \n"
 --- !u!222 &1172897418
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2386,92 +2386,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 426368646a1ed004a9bcf0cd0a202d32, type: 3}
---- !u!1001 &7448844465399725052
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -9140733437290754487, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.056
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.71
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 505746167338369377, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4363684730732218384, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: _powerupID
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4363684730732218384, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: _downSpeed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7042910298598257162, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_Name
-      value: Fireball_Powerup
-      objectReference: {fileID: 0}
-    - target: {fileID: 7042910298598257162, guid: 2c5b82471f86a4c4a92412ebd4a5493c,
-        type: 3}
-      propertyPath: m_TagString
-      value: Powerup
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c5b82471f86a4c4a92412ebd4a5493c, type: 3}
