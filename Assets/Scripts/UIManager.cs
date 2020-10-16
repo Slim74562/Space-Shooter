@@ -50,12 +50,11 @@ public class UIManager : MonoBehaviour
     }
 
     public void UpdateLives(int currentLives)
-    {
-        
+    {       
         if (currentLives > 0 && currentLives <= 3)
-        {            
-            _livesImg.sprite = _liveSprites[currentLives];
+        {
             _liveText.enabled = false;
+            _livesImg.sprite = _liveSprites[currentLives];           
             _livesImg.enabled = true;
         }
         else if (currentLives > 3)

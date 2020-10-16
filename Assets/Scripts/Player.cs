@@ -61,9 +61,8 @@ public class Player : MonoBehaviour
     private float _holdTime = 5.0f;
     private bool _isThrustCool = true;
     private bool _haveFireball = false;
-    [SerializeField]
     private CamShake _camera;
-
+    private Powerup _powerup;
 
     // Start is called before the first frame update
     void Start()
@@ -229,8 +228,7 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLives(_lives);
     }
-
-
+        
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(_powerupDuration);
@@ -258,7 +256,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(10f);
         _isThrustCool = true;
         _isThrustAvail = true;
-        Debug.Log("Thrusters Available");
     }
 
     void Thrusters()
@@ -286,8 +283,6 @@ public class Player : MonoBehaviour
 
     void DisableThrusters()
     {
-
-        Debug.Log("Thrusters Unavailable");
         _thrusters.transform.localPosition = new Vector3(0, -3.2f);
         _thrusters.transform.localScale = new Vector3(1, 1, 1);
         _speed = _normalSpeed;

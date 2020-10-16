@@ -9,11 +9,28 @@ public class Powerup : MonoBehaviour
     private int _powerupID;
     [SerializeField]
     private AudioClip _powerupClip;
+    private Transform _player;
+    private Rigidbody2D _powerupRigidBody2d;
+
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _powerupRigidBody2d = GetComponent<Rigidbody2D>();
+    }
 
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.C))
+        {
+            Vector2 direction = _player.position - transform.position;
+            _powerupRigidBody2d.velocity = (direction * _downSpeed);
+        }
+        else
+        {
+            _powerupRigidBody2d.velocity = new Vector2(0, -_downSpeed);
+                }
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
         if (transform.position.y < -7f)
         {
