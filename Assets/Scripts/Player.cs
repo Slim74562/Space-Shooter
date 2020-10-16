@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -60,6 +61,8 @@ public class Player : MonoBehaviour
     private float _holdTime = 5.0f;
     private bool _isThrustCool = true;
     private bool _haveFireball = false;
+    [SerializeField]
+    private GameObject _camera;
 
 
     // Start is called before the first frame update
@@ -100,6 +103,11 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("thrusters on Player is Null");
         }
+
+        if (_camera == null)
+        {
+            Debug.LogError("Main Camera on Player is Null");
+        }
     }
 
     // Update is called once per frame
@@ -110,8 +118,14 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammoCount);
     }
 
+    private void CamShake(float shakeDuration)
+    {
+         
+    }
+
     public void Damage()
     {
+        CamShake(2);
         if (_isDamageAvail)
         {
             _audioSource.clip = _explosionAudio;

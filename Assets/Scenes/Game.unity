@@ -259,6 +259,7 @@ MonoBehaviour:
   _outOfAmmoClip: {fileID: 8300000, guid: eb949f37101498a4ca24a130827c80e2, type: 3}
   _fireballClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
   _powerupDuration: 10
+  _camera: {fileID: 719980303}
 --- !u!212 &82418912
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1081,8 +1082,9 @@ GameObject:
   - component: {fileID: 719980305}
   - component: {fileID: 719980304}
   - component: {fileID: 719980307}
+  - component: {fileID: 719980308}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Main_Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1213,6 +1215,18 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &719980308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719980303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3461ad0c414554c44a64048afe27c4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &912743699
 GameObject:
   m_ObjectHideFlags: 0
