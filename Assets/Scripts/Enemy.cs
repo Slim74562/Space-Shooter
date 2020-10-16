@@ -60,7 +60,19 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(Vector3.right * _speed * Time.deltaTime);
+        if (transform.position.x > 10)
+        {
+            _speed = -_speed;
+            transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
+        }
+        else if (transform.position.x < -10)
+        {
+            _speed = -_speed;
+
+            transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
+        }
+
         FireLaser();
 
         if (transform.position.y < -6.5f)
