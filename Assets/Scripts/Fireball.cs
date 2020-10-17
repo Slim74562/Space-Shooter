@@ -13,6 +13,7 @@ public class Fireball : MonoBehaviour
     private float _enemyNullSpeed = 3;
     [SerializeField]
     private AudioClip _fireballShotClip;
+    private Player _player;
     
 
     private GameObject[] enemies;
@@ -23,6 +24,12 @@ public class Fireball : MonoBehaviour
         if (_enemy == null)
         {
             Debug.LogError("Enemy on Fireball is null");
+        }
+
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Player on Fireball is null");
         }
     }
     // Update is called once per frame
@@ -65,8 +72,10 @@ public class Fireball : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            other.GetComponent<Enemy>().KillEnemy();
-            other.tag = "Dying";
+            Enemy killEnemy = other.GetComponent<Enemy>();
+            killEnemy.ClearShield();
+            _player.SetScore(10);
+            killEnemy.KillEnemy();
             StartCoroutine(WaitforArray());
         }
     }

@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         while(!_stopSpawning)
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 5, 0);
+            Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
@@ -49,20 +49,24 @@ public class SpawnManager : MonoBehaviour
             if (randomPowerUp == 5 && _powerupCount < _maxPowerupCount)
             {
                 _powerupCount++;
-                randomPowerUp = Random.Range(0, powerups.Length - 1);
+                while (randomPowerUp == 4)
+                {
+                    randomPowerUp = Random.Range(0, powerups.Length - 1);                    
+                }
             }
             else if (randomPowerUp == 5 && _powerupCount >= _maxPowerupCount)
             {
                 _powerupCount = 0;
             }
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 5, 0);
+            Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
             Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
         }
     }
 
     public void OnPlayerDeath()
-    {        
+    {
+        _stopSpawning = true;
         GameObject[] _enemies, _powerups;
         _enemies = GameObject.FindGameObjectsWithTag("Enemy");
         _powerups = GameObject.FindGameObjectsWithTag("Powerup");
@@ -78,6 +82,5 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(powerup);
         }
-        _stopSpawning = true;
     }
 }

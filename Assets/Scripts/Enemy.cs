@@ -27,7 +27,12 @@ public class Enemy : MonoBehaviour
     private int _enemyScoreValue = 10;
     [SerializeField]
     private AudioClip _laserClip;
-
+    [SerializeField]
+    private AudioClip _shieldHitClip;
+    [SerializeField]
+    private GameObject _shieldVisualizer;
+    private int _enemyRare = 3;
+    private bool _isShieldActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +60,17 @@ public class Enemy : MonoBehaviour
             _audioSource.volume = .25f;
         }
         _coll = GetComponent<BoxCollider2D>();
+        if (_coll == null)
+        {
+            Debug.LogError("Box Collider on enemy is null");
+        }
+
+        if (_enemyRare == Random.Range(0, 5))
+        {
+            Debug.Log("Shield Enemy Spawned");
+            _shieldVisualizer.SetActive(true);
+            _isShieldActive = true;
+        }
     }
 
     // Update is called once per frame
@@ -81,6 +97,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     public bool IsPlayerDead()
     {
         _playerDead = true;
@@ -103,12 +120,28 @@ public class Enemy : MonoBehaviour
 
     public void KillEnemy()
     {
-        _audioSource.Play();
-        _coll.enabled = false;
-        _isDead = true;
-        _speed = 0;
-        _anim.SetTrigger("OnEnemyDeath");
-        Destroy(this.gameObject, 2.5f);
+        if (!_isShieldActive)
+        {
+            _audioSource.Play();
+            _coll.enabled = false;
+            _isDead = true;
+            _speed = 0;
+            transform.tag = "Dying";
+            _anim.SetTrigger("OnEnemyDeath");
+            Destroy(this.gameObject, 2.5f);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(_shieldHitClip, transform.position);
+            _shieldVisualizer.SetActive(false);
+            _isShieldActive = false;
+        }
+    }
+
+    public void ClearShield()
+    {
+        _isShieldActive = false;
+        _shieldVisualizer.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -128,7 +161,7 @@ public class Enemy : MonoBehaviour
             if (!other.GetComponent<Laser>().GetLaserType())
             {
                 Destroy(other.gameObject);
-                if (_player != null)
+                if (_player != null && !_isShieldActive)
                 {
                     _player.SetScore(_enemyScoreValue);
                 }
