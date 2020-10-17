@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _fireballClip;
     [SerializeField]
+    private AudioClip _shieldHitClip;
+    [SerializeField]
     private float _powerupDuration = 10f;
     private bool _isDamageAvail = true;
     private GameManager _gameManager;
@@ -156,7 +158,11 @@ public class Player : MonoBehaviour
             {
                 CamShake(.25f);
                 // Shield Strength Phase 1
-                _shieldHit++;
+                _shieldHit++; 
+                _audioSource.clip = _shieldHitClip;
+                _audioSource.volume = .25f;
+                _audioSource.Play();
+
                 switch (_shieldHit)
                 {
                     case 3:

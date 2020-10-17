@@ -20,7 +20,10 @@ public class Fireball : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(_fireballShotClip, transform.position, 0.25f);
         _enemy = GameObject.FindGameObjectWithTag("Enemy");
-        Debug.Log("_enemy is " + _enemy);
+        if (_enemy == null)
+        {
+            Debug.LogError("Enemy on Fireball is null");
+        }
     }
     // Update is called once per frame
     void Update()

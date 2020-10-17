@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8;
+    [SerializeField]
+    private GameObject _explosionPrefab; 
     private bool _isEnemyLaser = false;
 
 
@@ -65,6 +68,13 @@ public class Laser : MonoBehaviour
             if (other.tag == "Player")
             {
                 other.GetComponent<Player>().Damage();
+                Destroy(this.gameObject);
+            }
+
+            if (other.tag == "Powerup")
+            {
+                Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
+                Destroy(other.gameObject);
                 Destroy(this.gameObject);
             }
         }

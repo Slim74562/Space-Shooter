@@ -163,9 +163,9 @@ MonoBehaviour:
   - {fileID: 1780551230948220067, guid: 331b7a32595753246807766a2061a009, type: 3}
   - {fileID: 7042910298598257162, guid: 2c5b82471f86a4c4a92412ebd4a5493c, type: 3}
   _minEnemySpawnTime: 1
-  _maxEnemySpawnTime: 5
-  _minPowerupSpawnTime: 1
-  _maxPowerupSpawnTime: 5
+  _maxEnemySpawnTime: 2
+  _minPowerupSpawnTime: 5
+  _maxPowerupSpawnTime: 10
 --- !u!4 &40773411
 Transform:
   m_ObjectHideFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _outOfAmmoClip: {fileID: 8300000, guid: eb949f37101498a4ca24a130827c80e2, type: 3}
   _fireballClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
+  _shieldHitClip: {fileID: 8300000, guid: a841e8c2a8fee0e4e97c9f0534f5885e, type: 3}
   _powerupDuration: 10
 --- !u!212 &82418912
 SpriteRenderer:
