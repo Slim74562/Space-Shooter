@@ -46,7 +46,6 @@ public class SpawnManager : MonoBehaviour
         while (!_stopSpawning)
         {
             int randomPowerUp = Random.Range(0, _powerupCount);
-            Debug.Log("randomPowerup = " + randomPowerUp);
             int maxPowerupCount = _powerups.Length;
             if (_powerupCount < maxPowerupCount)
             {
@@ -54,8 +53,6 @@ public class SpawnManager : MonoBehaviour
                 if (_rareCount % 10 == 0)
                 {
                     _powerupCount++;
-
-                    Debug.Log("powerupCount + 1 = " + _powerupCount);
                 }
             }
             else if (_powerupCount >= maxPowerupCount)

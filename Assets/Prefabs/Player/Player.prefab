@@ -206,7 +206,8 @@ MonoBehaviour:
   _tripleShotPrefab: {fileID: 228573461589342868, guid: a725171f1a4a50b4ba0e7ace473ae75e,
     type: 3}
   _shieldVisualizer: {fileID: 3291116728828169961}
-  _fireballPrefab: {fileID: 0}
+  _fireballPrefab: {fileID: 4962300659069385378, guid: 1920734d463136a4298d9245f19258a5,
+    type: 3}
   _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
   _leftEngine: {fileID: 3291116728420852865}
