@@ -5,6 +5,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     private float _downSpeed = 1f;
+    private float _velSpeed = 5f;
     [SerializeField]
     private int _powerupID;
     [SerializeField]
@@ -25,7 +26,7 @@ public class Powerup : MonoBehaviour
         if (Input.GetKey(KeyCode.C))
         {
             Vector2 direction = _player.position - transform.position;
-            _powerupRigidBody2d.velocity = (direction * _downSpeed);
+            _powerupRigidBody2d.velocity = (direction * _velSpeed);
         }
         else
         {
@@ -50,7 +51,7 @@ public class Powerup : MonoBehaviour
                 switch (_powerupID)
                 {
                     case 0:
-                        player.TripleShotActive();
+                        player.ReloadAmmo();
                         break;
                     case 1:
                         player.SpeedBoostActive();
@@ -59,7 +60,7 @@ public class Powerup : MonoBehaviour
                         player.ShieldActive();
                         break;
                     case 3:
-                        player.ReloadAmmo();
+                        player.TripleShotActive();
                         break;
                     case 4:
                         player.ExtraLife();

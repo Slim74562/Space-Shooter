@@ -111,6 +111,7 @@ public class Enemy : MonoBehaviour
             _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
             GameObject _Laser = Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
+            _Laser.transform.parent = transform;
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             Laser[] lasers = _Laser.GetComponentsInChildren<Laser>();
             lasers[0].EnemyLaser();

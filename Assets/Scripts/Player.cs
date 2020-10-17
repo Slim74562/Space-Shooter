@@ -117,7 +117,6 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         FireLaser();
-        _uiManager.UpdateAmmo(_ammoCount);
     }
 
     private void CamShake(float shakeDuration)
@@ -329,6 +328,7 @@ public class Player : MonoBehaviour
             _haveFireball = false;
             _uiManager.UpdateFireball(_haveFireball);
         }
+        _uiManager.UpdateAmmo(_ammoCount);
     }
 
     public void Fireball()

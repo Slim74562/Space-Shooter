@@ -9,18 +9,18 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
-    private GameObject[] powerups;
+    private GameObject[] _powerups;
     [SerializeField]
     private float _minEnemySpawnTime = 3.0f;
     [SerializeField]
     private float _maxEnemySpawnTime = 5.0f;
     [SerializeField]
-    private float _minPowerupSpawnTime = 5.0f;
+    private float _minPowerupSpawnTime = 10.0f;
     [SerializeField]
-    private float _maxPowerupSpawnTime = 10.0f;
+    private float _maxPowerupSpawnTime = 20.0f;
     private bool _stopSpawning = false;
-    private int _powerupCount = 0;
-    private int _maxPowerupCount = 5;
+    private int _powerupCount = 3;
+    private int _rareCount;
 
     public void StartSpawning()
     {
@@ -45,21 +45,25 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
         while (!_stopSpawning)
         {
-            int randomPowerUp = Random.Range(0, powerups.Length);
-            if (randomPowerUp == 5 && _powerupCount < _maxPowerupCount)
+            int randomPowerUp = Random.Range(0, _powerupCount);
+            Debug.Log("randomPowerup = " + randomPowerUp);
+            int maxPowerupCount = _powerups.Length;
+            if (_powerupCount < maxPowerupCount)
             {
-                _powerupCount++;
-                while (randomPowerUp == 4)
+                _rareCount++;
+                if (_rareCount % 10 == 0)
                 {
-                    randomPowerUp = Random.Range(0, powerups.Length - 1);                    
+                    _powerupCount++;
+
+                    Debug.Log("powerupCount + 1 = " + _powerupCount);
                 }
             }
-            else if (randomPowerUp == 5 && _powerupCount >= _maxPowerupCount)
+            else if (_powerupCount >= maxPowerupCount)
             {
                 _powerupCount = 0;
             }
             Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
-            Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
+            Instantiate(_powerups[randomPowerUp], posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
         }
     }
