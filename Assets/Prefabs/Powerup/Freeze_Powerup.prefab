@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerupID: 3
-  _powerupClip: {fileID: 8300000, guid: e0b5b13216062d34ca030b59bb1ca860, type: 3}
+  _powerupClip: {fileID: 8300000, guid: bfb2157abb8a9844cb019e209218614c, type: 3}
 --- !u!95 &555081442292853548
 Animator:
   serializedVersion: 3

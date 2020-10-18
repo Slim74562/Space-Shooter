@@ -49,21 +49,27 @@ public class SpawnManager : MonoBehaviour
             int randomPowerUp = Random.Range(0, _powerupCount);
             while (_lastIndex == randomPowerUp)
             {
-                Debug.Log("Last Index was " + _lastIndex + ". Powerup Count is " + _powerupCount + ".");
                 randomPowerUp = Random.Range(0, _powerupCount);
             }
             _lastIndex = randomPowerUp;
+
             if (_powerupCount < _powerups.Length)
             {
                 _rareCount++;
-                if (_rareCount % 10 == 0)
+                if (_rareCount % 5 == 0)
                 {
                     _powerupCount++;
                 }
             }
-            else if (_powerupCount > _powerups.Length)
+            else
             {
-                _powerupCount = 0;
+                Debug.Log("_rareCount: " + _rareCount + " _powerupCount: " + _powerupCount);
+                _rareCount++;
+                if (_rareCount % 5 == 0)
+                {
+                    _rareCount = 0;
+                    _powerupCount = 4;
+                }                
             }
             Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
             Instantiate(_powerups[randomPowerUp], posToSpawn, Quaternion.identity);

@@ -325,7 +325,7 @@ public class Player : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space) && _ammoCount == 0)
         {
             _audioSource.clip = _outOfAmmoClip;
-            _audioSource.volume = 0.15f;
+            _audioSource.volume = 0.05f;
             _audioSource.Play();
         }
         if (Input.GetKeyDown(KeyCode.Z) && _haveFireball)
@@ -354,7 +354,7 @@ public class Player : MonoBehaviour
 
     void CalculateMovement()
     {
-        float xMax = 11;
+        float xMax = 15;
         if (!_isPlayerFrozen)
         {
             float horizontalInput = Input.GetAxis("Horizontal"); //user input horizontal control
