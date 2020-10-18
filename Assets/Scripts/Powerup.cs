@@ -17,6 +17,7 @@ public class Powerup : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         _powerupRigidBody2d = GetComponent<Rigidbody2D>();
+        Debug.Log(transform.name);
     }
 
 

@@ -49,6 +49,7 @@ public class SpawnManager : MonoBehaviour
             int randomPowerUp = Random.Range(0, _powerupCount);
             while (_lastIndex == randomPowerUp)
             {
+                Debug.Log("Last Index was " + _lastIndex + ". Powerup Count is " + _powerupCount + ".");
                 randomPowerUp = Random.Range(0, _powerupCount);
             }
             _lastIndex = randomPowerUp;
@@ -60,7 +61,7 @@ public class SpawnManager : MonoBehaviour
                     _powerupCount++;
                 }
             }
-            else if (_powerupCount >= _powerups.Length)
+            else if (_powerupCount > _powerups.Length)
             {
                 _powerupCount = 0;
             }
