@@ -196,11 +196,14 @@ public class Player : MonoBehaviour
 
     public void SpeedBoostActive()
     {
-        _isSpeedBoostActive = true;
-        _speed = _boostSpeed;
-        _thrusters.transform.localPosition = new Vector3(0, -6.5f);
-        _thrusters.transform.localScale = new Vector3(1, 3, 1);
-        StartCoroutine(SpeedPowerDownRoutine());
+        if (!_isPlayerFrozen)
+        {
+            _isSpeedBoostActive = true;
+            _speed = _boostSpeed;
+            _thrusters.transform.localPosition = new Vector3(0, -6.5f);
+            _thrusters.transform.localScale = new Vector3(1, 3, 1);
+            StartCoroutine(SpeedPowerDownRoutine());
+        }        
     }
 
     public void ShieldActive()
@@ -275,21 +278,21 @@ public class Player : MonoBehaviour
     void Thrusters()
     {
         // Thrusters Phase 1
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustCool)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustCool && !_isPlayerFrozen)
         {
 
             _isThrustCool = false;
             StartCoroutine(ThrusterAvail());
 
         }
-        if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
+        if (Input.GetKey(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail && !_isPlayerFrozen)
         {
             _thrusters.transform.localPosition = new Vector3(0, -5);
             _thrusters.transform.localScale = new Vector3(1, 2, 1);
             _speed = _thrustSpeed;
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail)
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !_isSpeedBoostActive && _isThrustAvail && !_isPlayerFrozen)
         {
             DisableThrusters();
         }

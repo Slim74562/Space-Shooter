@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnEnemyRoutine()  //using IEnumerator allows for use of yield keyword ** Coroutine
     {
         yield return new WaitForSeconds(3.0f);
-        while(!_stopSpawning)
+        while (!_stopSpawning)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
@@ -63,13 +63,12 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("_rareCount: " + _rareCount + " _powerupCount: " + _powerupCount);
                 _rareCount++;
                 if (_rareCount % 5 == 0)
                 {
                     _rareCount = 0;
                     _powerupCount = 4;
-                }                
+                }
             }
             Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
             Instantiate(_powerups[randomPowerUp], posToSpawn, Quaternion.identity);
@@ -90,6 +89,15 @@ public class SpawnManager : MonoBehaviour
         foreach (GameObject enemy in _enemies)
         {
             enemy.GetComponent<Enemy>().KillEnemy();
+        }
+        _enemies = null;
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (_enemies != null)
+        {
+            foreach (GameObject enemy in _enemies)
+            {
+                enemy.GetComponent<Enemy>().KillEnemy();
+            }
         }
         foreach (GameObject powerup in _powerups)
         {
