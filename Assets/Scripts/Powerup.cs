@@ -60,12 +60,15 @@ public class Powerup : MonoBehaviour
                         player.ShieldActive();
                         break;
                     case 3:
-                        player.TripleShotActive();
+                        player.FreezePlayer();
                         break;
                     case 4:
-                        player.ExtraLife();
+                        player.TripleShotActive();
                         break;
                     case 5:
+                        player.ExtraLife();
+                        break;
+                    case 6:
                         player.Fireball();
                         break;
                 }

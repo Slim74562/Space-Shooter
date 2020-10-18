@@ -19,7 +19,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private float _maxPowerupSpawnTime = 20.0f;
     private bool _stopSpawning = false;
-    private int _powerupCount = 3;
+    private int _powerupCount = 4;
+    private int _lastIndex;
     private int _rareCount;
 
     public void StartSpawning()
@@ -46,8 +47,12 @@ public class SpawnManager : MonoBehaviour
         while (!_stopSpawning)
         {
             int randomPowerUp = Random.Range(0, _powerupCount);
-            int maxPowerupCount = _powerups.Length;
-            if (_powerupCount < maxPowerupCount)
+            while (_lastIndex == randomPowerUp)
+            {
+                randomPowerUp = Random.Range(0, _powerupCount);
+            }
+            _lastIndex = randomPowerUp;
+            if (_powerupCount < _powerups.Length)
             {
                 _rareCount++;
                 if (_rareCount % 10 == 0)
@@ -55,7 +60,7 @@ public class SpawnManager : MonoBehaviour
                     _powerupCount++;
                 }
             }
-            else if (_powerupCount >= maxPowerupCount)
+            else if (_powerupCount >= _powerups.Length)
             {
                 _powerupCount = 0;
             }

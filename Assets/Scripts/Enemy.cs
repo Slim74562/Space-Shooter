@@ -67,7 +67,6 @@ public class Enemy : MonoBehaviour
 
         if (_enemyRare == Random.Range(0, 5))
         {
-            Debug.Log("Shield Enemy Spawned");
             _shieldVisualizer.SetActive(true);
             _isShieldActive = true;
         }

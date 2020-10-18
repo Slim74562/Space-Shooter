@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     private bool _haveFireball = false;
     private CamShake _camera;
     private Powerup _powerup;
+    private bool _isPlayerFrozen = false;
 
     // Start is called before the first frame update
     void Start()
@@ -249,6 +250,14 @@ public class Player : MonoBehaviour
         _thrusters.transform.localScale = new Vector3(1, 1, 1);
     }
 
+    IEnumerator FrozenPlayerPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(_powerupDuration / 2);
+        _thrusters.GetComponent<SpriteRenderer>().color = Color.white;
+        _isPlayerFrozen = false;
+        
+    }
+
     IEnumerator ThrusterAvail()
     {
         //disable thrusters even though button may still be down
@@ -336,42 +345,57 @@ public class Player : MonoBehaviour
         _haveFireball = true;
         _uiManager.UpdateFireball(_haveFireball);
     }
+    
+    public void FreezePlayer()
+    {
+        _isPlayerFrozen = true;
+        _thrusters.GetComponent<SpriteRenderer>().color = Color.blue;
+    }
 
     void CalculateMovement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal"); //user input horizontal control
-        float verticalInput = Input.GetAxis("Vertical");
-
-        //transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime); // can use transform.Translate(new Vector3(1, 0, 0)) to move right also
-        //Time.deltaTime is real time seconds
-
-        // transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
-
-        transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime); //efficient way to do
-
-        //if y pos > 0 then y = 0
-
-        //can use transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
-
-        if (transform.position.y >= 0)
+        float xMax = 11;
+        if (!_isPlayerFrozen)
         {
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        }
-        else if (transform.position.y <= -5f)
-        {
-            transform.position = new Vector3(transform.position.x, -5f, 0);
-        }
+            float horizontalInput = Input.GetAxis("Horizontal"); //user input horizontal control
+            float verticalInput = Input.GetAxis("Vertical");
 
-        if (transform.position.x >= 11f)
-        {
-            transform.position = new Vector3(-11f, transform.position.y, 0);
-        }
-        else if (transform.position.x <= -11f)
-        {
-            transform.position = new Vector3(11f, transform.position.y, 0);
-        }
+            //transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime); // can use transform.Translate(new Vector3(1, 0, 0)) to move right also
+            //Time.deltaTime is real time seconds
 
-        Thrusters();
+            // transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
+
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime); //efficient way to do
+
+            //if y pos > 0 then y = 0
+
+            //can use transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
+
+            if (transform.position.y >= 0)
+            {
+                transform.position = new Vector3(transform.position.x, 0, 0);
+            }
+            else if (transform.position.y <= -5f)
+            {
+                transform.position = new Vector3(transform.position.x, -5f, 0);
+            }
+
+            if (transform.position.x >= xMax)
+            {
+                transform.position = new Vector3(-xMax, transform.position.y, 0);
+            }
+            else if (transform.position.x <= -xMax)
+            {
+                transform.position = new Vector3(xMax, transform.position.y, 0);
+            }
+
+            Thrusters();
+
+        }
+        else
+        {
+            StartCoroutine(FrozenPlayerPowerDownRoutine());
+        }
 
     }
 

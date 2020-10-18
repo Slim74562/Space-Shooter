@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1381f1b0e0d4643498df01cd4781e8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _powerupID: 3
+  _powerupID: 4
   _powerupClip: {fileID: 8300000, guid: 473fd37e06ec0474b837029477f78332, type: 3}
 --- !u!95 &1827350800386574389
 Animator:
