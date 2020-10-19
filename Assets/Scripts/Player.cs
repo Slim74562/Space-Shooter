@@ -357,7 +357,7 @@ public class Player : MonoBehaviour
 
     void CalculateMovement()
     {
-        float xMax = 15;
+        float xMax = 11;
         if (!_isPlayerFrozen)
         {
             float horizontalInput = Input.GetAxis("Horizontal"); //user input horizontal control
