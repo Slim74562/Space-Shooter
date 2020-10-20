@@ -50,7 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 6885627168094761958}
-  _LaserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
+  _laserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
+    type: 3}
+  _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
   _maxFireRate: 5
   _minFireRate: 3

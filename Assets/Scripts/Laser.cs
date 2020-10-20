@@ -56,7 +56,7 @@ public class Laser : MonoBehaviour
         _isEnemyLaser = true;
     }
 
-    public bool GetLaserType()
+    public bool IsEnemyLaser()
     {
         return _isEnemyLaser;
     }

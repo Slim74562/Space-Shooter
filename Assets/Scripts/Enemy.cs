@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject _laserPrefab;
     [SerializeField]
-    private GameObject _LaserPrefab;
+    private GameObject _explosionPrefab;
     private Player _player;
-    private Animator _anim;
-    private BoxCollider2D _coll;
+    private Collider2D _collider2d;
     private float _speed = 1;
     [SerializeField]
     private float _maxFireRate = 5.0f;
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
     [SerializeField]
-    private int _enemyScoreValue = 10;
+    private int _enemyScoreValue;
     [SerializeField]
     private AudioClip _laserClip;
     [SerializeField]
@@ -33,36 +33,34 @@ public class Enemy : MonoBehaviour
     private GameObject _shieldVisualizer;
     private int _enemyRare = 3;
     private bool _isShieldActive = false;
+    private string _name;
+    private bool _isMoving = true;
+    private float _movementWait = 3f;
+    private float _originalSpeed = 0.5f;
+    private Rigidbody2D _rigidbody;
+    private bool _isSmartEnemy = false;
+    private bool _isRegularEnemy = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        _name = transform.name;
+
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (_player == null)
         {
-            Debug.LogError("Player is Null");
-        }
-
-        _anim = GetComponent<Animator>();
-        if (_anim == null)
-        {
-            Debug.LogError("Animator is Null");
+            Debug.LogError("Player on " + _name + " is Null");
         }
 
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {
-            Debug.LogError("Audio Source on Enemy is Null");
+            Debug.LogError("Audio Source on " + _name + " is Null");
         }
         else
         {
             _audioSource.clip = _explosionAudio;
             _audioSource.volume = .25f;
-        }
-        _coll = GetComponent<BoxCollider2D>();
-        if (_coll == null)
-        {
-            Debug.LogError("Box Collider on enemy is null");
         }
 
         if (_enemyRare == Random.Range(0, 5))
@@ -70,10 +68,71 @@ public class Enemy : MonoBehaviour
             _shieldVisualizer.SetActive(true);
             _isShieldActive = true;
         }
+        
+        if (_name == "Smart_Enemy")
+        {
+            StartCoroutine(MovementCoolDown());
+            _isSmartEnemy = true;
+            _isRegularEnemy = false;
+            _collider2d = GetComponent<CircleCollider2D>();            
+        } 
+        else if (_name == "Enemy")
+        {
+            _collider2d = GetComponent<BoxCollider2D>();            
+        }
+
+        if (_collider2d == null)
+        {
+            Debug.LogError("Collider2D on " + _name + " is null");
+        }
+
+        _rigidbody = GetComponent<Rigidbody2D>();
+        if (_rigidbody == null)
+        {
+            Debug.LogError("Rigidbody on " + _name + " is null");
+        }
+    }
+
+    private IEnumerator MovementCoolDown()
+    {
+        while (_isMoving)
+        {
+            yield return new WaitForSeconds(_movementWait);
+            _speed = 0;
+            yield return new WaitForSeconds(_movementWait);
+            _speed = _originalSpeed;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (_isRegularEnemy)
+        {
+            RegularEnemyMovement();
+        }
+        else if (_isSmartEnemy)
+        {
+            SmartEnemyMovement();
+        }
+    }
+
+    private void SmartEnemyMovement()
+    {
+        if (_player != null)
+        {
+            Vector2 direction = _player.transform.position - transform.position;
+            _rigidbody.velocity = (direction * _speed);
+        }
+        else
+        {
+            _rigidbody.velocity = Vector3.down * _speed;
+        }
+
+    }
+
+    private void RegularEnemyMovement()
     {
         transform.Translate(Vector3.right * _speed * Time.deltaTime);
         if (transform.position.x > 10)
@@ -88,7 +147,7 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
         }
 
-        FireLaser();
+        FireRegularLaser();
 
         if (transform.position.y < -6.5f)
         {
@@ -96,20 +155,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     public bool IsPlayerDead()
     {
         _playerDead = true;
         return _playerDead;
     }
 
-    void FireLaser()
+    void FireRegularLaser()
     {
         if (Time.time > _canFire && !_isDead)
         {
             _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
-            GameObject _Laser = Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
+            GameObject _Laser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             _Laser.transform.parent = transform;
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             Laser[] lasers = _Laser.GetComponentsInChildren<Laser>();
@@ -123,12 +181,12 @@ public class Enemy : MonoBehaviour
         if (!_isShieldActive)
         {
             _audioSource.Play();
-            _coll.enabled = false;
+            _collider2d.enabled = false;
             _isDead = true;
             _speed = 0;
             transform.tag = "Dying";
-            _anim.SetTrigger("OnEnemyDeath");
-            Destroy(this.gameObject, 2.5f);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
         else
         {
@@ -158,7 +216,7 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Laser")
         {
-            if (!other.GetComponent<Laser>().GetLaserType())
+            if (!other.GetComponent<Laser>().IsEnemyLaser())
             {
                 Destroy(other.gameObject);
                 if (_player != null && !_isShieldActive)

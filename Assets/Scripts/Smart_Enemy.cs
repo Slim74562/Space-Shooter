@@ -10,7 +10,9 @@ public class Smart_Enemy : MonoBehaviour
     private float _speed = 0.5f;
     private float _movementWait = 3;
     private bool _isMoving = true;
+    [SerializeField]
     private GameObject _explosionPrefab;
+    private int _enemyScoreValue = 25;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +69,28 @@ public class Smart_Enemy : MonoBehaviour
         _speed = 0;
         transform.tag = "Dying";
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(this.gameObject, 2.5f);
+        Destroy(this.gameObject);
+    }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            if (_player != null)
+            {
+                _player.Damage();
+                _player.SetScore(_enemyScoreValue);
+            }
+            KillEnemy();
+        }
+
+        if (other.tag == "Laser" && !other.GetComponent<Laser>().IsEnemyLaser())
+        {
+            KillEnemy();
+            if (_player != null)
+            {
+                _player.SetScore(_enemyScoreValue);
+            }
+        }
     }
 }

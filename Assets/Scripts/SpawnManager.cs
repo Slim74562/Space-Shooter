@@ -22,6 +22,9 @@ public class SpawnManager : MonoBehaviour
     private int _powerupCount = 4;
     private int _lastIndex;
     private int _rareCount;
+    private int _enemyCount = 0;
+    [SerializeField]
+    private GameObject _smartEnemyPrefab;
 
     public void StartSpawning()
     {
@@ -35,7 +38,17 @@ public class SpawnManager : MonoBehaviour
         while (!_stopSpawning)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+            GameObject newEnemy;
+            if (_enemyCount > 2)
+            {
+                newEnemy = Instantiate(_smartEnemyPrefab, posToSpawn, Quaternion.identity);
+                _enemyCount = 0;
+            }
+            else
+            {
+                newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+            }
+            _enemyCount++;
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
         }
