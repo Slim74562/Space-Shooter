@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
     private float _movementWait = 3f;
     private float _originalSpeed = 0.5f;
     private Rigidbody2D _rigidbody;
-    private bool _isSmartEnemy = false;
+    private bool _isKamakaziEnemy = false;
     private bool _isRegularEnemy = true;
 
     // Start is called before the first frame update
@@ -69,10 +69,10 @@ public class Enemy : MonoBehaviour
             _isShieldActive = true;
         }
         
-        if (_name == "Smart_Enemy")
+        if (_name == "Kamakazi_Enemy")
         {
             StartCoroutine(MovementCoolDown());
-            _isSmartEnemy = true;
+            _isKamakaziEnemy = true;
             _isRegularEnemy = false;
             _collider2d = GetComponent<CircleCollider2D>();            
         } 
@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour
         {
             RegularEnemyMovement();
         }
-        else if (_isSmartEnemy)
+        else if (_isKamakaziEnemy)
         {
             SmartEnemyMovement();
         }
@@ -146,13 +146,13 @@ public class Enemy : MonoBehaviour
 
             transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
         }
-
-        FireRegularLaser();
-
+                
         if (transform.position.y < -6.5f)
         {
             transform.position = new Vector3(Random.Range(-10f, 10f), 6.5f, 0);
         }
+
+        FireRegularLaser();
     }
 
     public bool IsPlayerDead()
