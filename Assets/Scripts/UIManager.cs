@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour
         }
         if (currentLives == 0)
         {
+            _livesImg.sprite = _liveSprites[currentLives];
             GameOverSequence();
         }
     }

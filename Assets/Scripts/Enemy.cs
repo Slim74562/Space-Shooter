@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject _explosionPrefab;
     private Player _player;
-    private Collider2D _collider2d;
     private float _speed = 1;
     [SerializeField]
     private float _maxFireRate = 5.0f;
@@ -40,11 +39,16 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private bool _isKamakaziEnemy = false;
     private bool _isRegularEnemy = true;
+    private BoxCollider2D _boxCollider2D;
+    private CircleCollider2D _circleCollider2D;
+    private string _kamakaziEnemyString = "Kamakazi_Enemy(Clone)";
+    private string _regularEnemyString = "Enemy(Clone)";
 
     // Start is called before the first frame update
     void Start()
     {
         _name = transform.name;
+        Debug.Log(_name + " = Name");
 
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (_player == null)
@@ -68,22 +72,25 @@ public class Enemy : MonoBehaviour
             _shieldVisualizer.SetActive(true);
             _isShieldActive = true;
         }
-        
-        if (_name == "Kamakazi_Enemy")
+
+        if (_name == _kamakaziEnemyString)
         {
+            Debug.Log("Kamakazi Enemy");
             StartCoroutine(MovementCoolDown());
             _isKamakaziEnemy = true;
             _isRegularEnemy = false;
-            _collider2d = GetComponent<CircleCollider2D>();            
-        } 
-        else if (_name == "Enemy")
+            _circleCollider2D = GetComponent<CircleCollider2D>();
+            if (_circleCollider2D == null)
+            {
+                Debug.LogError("Circle Collider2D on Kamakazi Enemy is null");
+            }
+        }else if (_name == _regularEnemyString)
         {
-            _collider2d = GetComponent<BoxCollider2D>();            
-        }
-
-        if (_collider2d == null)
-        {
-            Debug.LogError("Collider2D on " + _name + " is null");
+            _boxCollider2D = GetComponent<BoxCollider2D>();
+            if (_boxCollider2D == null)
+            {
+                Debug.LogError("BoxCollider2D on Enemy is null");
+            }
         }
 
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -179,9 +186,7 @@ public class Enemy : MonoBehaviour
     public void KillEnemy()
     {
         if (!_isShieldActive)
-        {
-            _audioSource.Play();
-            _collider2d.enabled = false;
+        {         
             _isDead = true;
             _speed = 0;
             transform.tag = "Dying";
