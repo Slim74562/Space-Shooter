@@ -360,23 +360,14 @@ public class Player : MonoBehaviour
         float xMax = 11;
         if (!_isPlayerFrozen)
         {
-            float horizontalInput = Input.GetAxis("Horizontal"); //user input horizontal control
+            float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
 
-            //transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime); // can use transform.Translate(new Vector3(1, 0, 0)) to move right also
-            //Time.deltaTime is real time seconds
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
 
-            // transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
-
-            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime); //efficient way to do
-
-            //if y pos > 0 then y = 0
-
-            //can use transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
-
-            if (transform.position.y >= 0)
+            if (transform.position.y >= 5)
             {
-                transform.position = new Vector3(transform.position.x, 0, 0);
+                transform.position = new Vector3(transform.position.x, 5, 0);
             }
             else if (transform.position.y <= -5f)
             {

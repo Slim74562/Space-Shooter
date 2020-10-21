@@ -41,9 +41,6 @@ public class Asteroid : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.tag == "Player")
-        {
-            Destroy(other.gameObject);
-        }
+        
     }
 }

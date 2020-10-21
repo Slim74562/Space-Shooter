@@ -167,7 +167,7 @@ MonoBehaviour:
   _maxEnemySpawnTime: 10
   _minPowerupSpawnTime: 5
   _maxPowerupSpawnTime: 10
-  _smartEnemyPrefab: {fileID: 3683694835735958351, guid: 13235994335f4fb44bccb17f44681638,
+  _smartEnemyPrefab: {fileID: 3683694835735958351, guid: 48bbfda3c9ffee2498cae78a70417449,
     type: 3}
 --- !u!4 &40773411
 Transform:
