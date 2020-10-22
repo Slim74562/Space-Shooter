@@ -48,7 +48,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _name = transform.name;
-        Debug.Log(_name + " = Name");
 
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (_player == null)
@@ -75,7 +74,6 @@ public class Enemy : MonoBehaviour
 
         if (_name == _kamakaziEnemyString)
         {
-            Debug.Log("Kamakazi Enemy");
             StartCoroutine(MovementCoolDown());
             _isKamakaziEnemy = true;
             _isRegularEnemy = false;

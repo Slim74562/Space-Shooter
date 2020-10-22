@@ -21,11 +21,14 @@ public class UIManager : MonoBehaviour
     private Text _ammoText;
     [SerializeField]
     private Text _liveText;
+    [SerializeField]
+    private Text _waveText;
     private GameManager _gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        _waveText.enabled = false;
         _scoreText.text = "Score: 0";
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
@@ -47,6 +50,26 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmo(int playerAmmo)
     {
         _ammoText.text = "Ammo: " + playerAmmo + " / 15";
+    }
+
+    public void UpdateWave(string currentWave)
+    {
+        _waveText.enabled = true;
+        _waveText.text = "Wave: " + currentWave;
+        StartCoroutine(WaveTextDisableCountdown());
+    }
+
+    IEnumerator WaveTextDisableCountdown()
+    {
+        yield return new WaitForSeconds(1f);
+        _waveText.enabled = false;
+        yield return new WaitForSeconds(1f);
+        _waveText.color = Color.blue;
+        _waveText.enabled = true;
+        yield return new WaitForSeconds(1f);
+        _waveText.color = Color.white;
+        _waveText.enabled = false;
+        GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnManager>().StartSpawning();
     }
 
     public void UpdateLives(int currentLives)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -22,41 +23,75 @@ public class SpawnManager : MonoBehaviour
     private int _powerupCount = 4;
     private int _lastIndex;
     private int _rareCount;
-    private int _enemyCount = 0;
     [SerializeField]
     private GameObject _smartEnemyPrefab;
+    [SerializeField]
+    private GameObject _asteroidPrefab;
+    private int _waveCount = 1;
+    private int _maxEnemyCount = 0;
+    private int _enemyCount = 0;
 
     public void StartSpawning()
     {
+        _stopSpawning = false;
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
+    public int GetWaveCount()
+    {
+        return _waveCount;
+    }
+
     IEnumerator SpawnEnemyRoutine()  //using IEnumerator allows for use of yield keyword ** Coroutine
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.5f);
+        _maxEnemyCount = 7 * _waveCount;
         while (!_stopSpawning)
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
-            GameObject newEnemy;
-            if (_enemyCount > 2)
+            _enemyCount++;
+            if (_enemyCount <= _maxEnemyCount)
             {
-                newEnemy = Instantiate(_smartEnemyPrefab, posToSpawn, Quaternion.identity);
-                _enemyCount = 0;
+                Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
+                GameObject newEnemy;
+                if (Random.Range(0, 3) == 0 && _waveCount > 1)
+                {
+                    newEnemy = Instantiate(_smartEnemyPrefab, posToSpawn, Quaternion.identity);
+                }
+                else
+                {
+                    newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+                }
+                newEnemy.transform.parent = _enemyContainer.transform;
+                yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
             }
             else
             {
-                newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
-            }
-            _enemyCount++;
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
+                _enemyCount = 0;
+                _stopSpawning = true;       
+            }            
+        }        
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");        
+        while (enemies.Length != 0)
+        {
+            Debug.Log("Enemies left: " + enemies.Length);
+            yield return new WaitForSeconds(.5f);
+            enemies = GameObject.FindGameObjectsWithTag("Enemy");
         }
+        _waveCount++;
+        Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
+        waveText.text = "Wave Complete";
+        waveText.enabled = true;
+        yield return new WaitForSeconds(1f);
+        waveText.enabled = false;
+        Instantiate(_asteroidPrefab, new Vector3(0, 4.5f, 0), Quaternion.identity);
+        StopCoroutine(SpawnPowerupRoutine());
+        StopCoroutine(SpawnEnemyRoutine());
     }
 
     IEnumerator SpawnPowerupRoutine()
     {
-        yield return new WaitForSeconds(Random.Range(_minPowerupSpawnTime, _maxPowerupSpawnTime));
+        yield return new WaitForSeconds(9.0f);
         while (!_stopSpawning)
         {
             int randomPowerUp = Random.Range(0, _powerupCount);

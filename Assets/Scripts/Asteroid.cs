@@ -26,19 +26,28 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(Vector3.forward * _rotateSpeed * Time.deltaTime);
     }
 
+    private void DestroyAsteroid()
+    {
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        GameObject.Find("Canvas").GetComponent<UIManager>().UpdateWave(_spawnManager.GetWaveCount().ToString());
+        Destroy(this.gameObject, 0.25f);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
-            _spawnManager.StartSpawning();
-            Destroy(this.gameObject, 0.25f);
+            if (!other.GetComponent<Laser>().IsEnemyLaser())
+            {
+                Destroy(other.gameObject);
+                DestroyAsteroid();
+            }          
         }
 
-        if (other.tag == "Enemy")
+        if (other.tag == "Player")
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Player>().Damage();
+            DestroyAsteroid();
         }
 
         
