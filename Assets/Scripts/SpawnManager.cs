@@ -6,28 +6,22 @@ using UnityEngine.UI;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
-    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private GameObject[] _powerups;
-    [SerializeField]
     private float _minEnemySpawnTime = 3.0f;
-    [SerializeField]
     private float _maxEnemySpawnTime = 5.0f;
-    [SerializeField]
-    private float _minPowerupSpawnTime = 10.0f;
-    [SerializeField]
-    private float _maxPowerupSpawnTime = 20.0f;
+    private float _minPowerupSpawnTime = 5f;
+    private float _maxPowerupSpawnTime = 10.0f;
     private bool _stopSpawning = false;
     private int _powerupCount = 4;
     private int _lastIndex;
     private int _rareCount;
     [SerializeField]
-    private GameObject _smartEnemyPrefab;
+    private GameObject[] _enemyPrefabs;
     [SerializeField]
     private GameObject _asteroidPrefab;
-    private int _waveCount = 1;
+    private int _waveCount = 3;
     private int _maxEnemyCount = 0;
     private int _enemyCount = 0;
 
@@ -54,13 +48,17 @@ public class SpawnManager : MonoBehaviour
             {
                 Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
                 GameObject newEnemy;
+                if (Random.Range(0,1) == 0 && _waveCount > 2)
+                {
+                    newEnemy = Instantiate(_enemyPrefabs[2], posToSpawn, Quaternion.identity);
+                }
                 if (Random.Range(0, 3) == 0 && _waveCount > 1)
                 {
-                    newEnemy = Instantiate(_smartEnemyPrefab, posToSpawn, Quaternion.identity);
+                    newEnemy = Instantiate(_enemyPrefabs[1], posToSpawn, Quaternion.identity);
                 }
                 else
                 {
-                    newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+                    newEnemy = Instantiate(_enemyPrefabs[0], posToSpawn, Quaternion.identity);
                 }
                 newEnemy.transform.parent = _enemyContainer.transform;
                 yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));

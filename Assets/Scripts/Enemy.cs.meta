@@ -3,7 +3,13 @@ guid: eea56142240a6b847b4b43288b8f5825
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _laserPrefab: {instanceID: 0}
+  - _explosionPrefab: {instanceID: 0}
+  - _explosionAudio: {instanceID: 0}
+  - _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  - _shieldHitClip: {instanceID: 0}
+  - _shieldVisualizer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

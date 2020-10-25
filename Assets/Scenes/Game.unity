@@ -152,8 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea22dd4d75a2a5489b98eadaee6b223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 6885627168094761958, guid: 5b094184da441c2428c6f6016b38858e,
-    type: 3}
   _enemyContainer: {fileID: 276526105}
   _powerups:
   - {fileID: 8982089477764482521, guid: 16a4c17167921a341a618831937a5d6e, type: 3}
@@ -163,12 +161,10 @@ MonoBehaviour:
   - {fileID: 1827350800386574399, guid: a3e8ca4d104f5434c906c65eaaa54798, type: 3}
   - {fileID: 1780551230948220067, guid: 331b7a32595753246807766a2061a009, type: 3}
   - {fileID: 7042910298598257162, guid: 2c5b82471f86a4c4a92412ebd4a5493c, type: 3}
-  _minEnemySpawnTime: 1
-  _maxEnemySpawnTime: 10
-  _minPowerupSpawnTime: 5
-  _maxPowerupSpawnTime: 10
-  _smartEnemyPrefab: {fileID: 3683694835735958351, guid: 48bbfda3c9ffee2498cae78a70417449,
-    type: 3}
+  _enemyPrefabs:
+  - {fileID: 6885627168094761958, guid: 5b094184da441c2428c6f6016b38858e, type: 3}
+  - {fileID: 3683694835735958351, guid: 48bbfda3c9ffee2498cae78a70417449, type: 3}
+  - {fileID: 2482299443324209921, guid: cdba6839a14e6844e89c1daa356d6b5c, type: 3}
   _asteroidPrefab: {fileID: 3865913023005067272, guid: 6d823a827de25a045ad88e8d2d1eb8cf,
     type: 3}
 --- !u!4 &40773411

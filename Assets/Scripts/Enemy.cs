@@ -6,30 +6,27 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _laserPrefab;
+    private GameObject _RegularEnemyLaserPrefab;
     [SerializeField]
     private GameObject _explosionPrefab;
     private Player _player;
     private float _speed = 1;
-    [SerializeField]
     private float _maxFireRate = 5.0f;
-    [SerializeField]
     private float _minFireRate = 3.0f;
     private float _fireRate;
     private float _canFire = 1;
     private bool _isDead = false;
-    private bool _playerDead = false;
     [SerializeField]
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
-    [SerializeField]
-    private int _enemyScoreValue;
     [SerializeField]
     private AudioClip _laserClip;
     [SerializeField]
     private AudioClip _shieldHitClip;
     [SerializeField]
     private GameObject _shieldVisualizer;
+    [SerializeField]
+    private int _enemyScoreValue;
     private int _enemyRare = 3;
     private bool _isShieldActive = false;
     private string _name;
@@ -39,10 +36,14 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private bool _isKamakaziEnemy = false;
     private bool _isRegularEnemy = true;
+    private bool _isWheelEnemy = false;
     private BoxCollider2D _boxCollider2D;
     private CircleCollider2D _circleCollider2D;
     private string _kamakaziEnemyString = "Kamakazi_Enemy(Clone)";
     private string _regularEnemyString = "Enemy(Clone)";
+    private string _wheelEnemyString = "Wheel_Enemy(Clone)";
+    private int _vertical = 1;
+    private int _horizontal = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -66,28 +67,43 @@ public class Enemy : MonoBehaviour
             _audioSource.volume = .25f;
         }
 
-        if (_enemyRare == Random.Range(0, 5))
-        {
-            _shieldVisualizer.SetActive(true);
-            _isShieldActive = true;
-        }
+        
 
-        if (_name == _kamakaziEnemyString)
+        if (_name == _wheelEnemyString)
+        {
+            _isWheelEnemy = true;
+            _isKamakaziEnemy = false;
+            _isRegularEnemy = false;
+            _circleCollider2D = GetComponent<CircleCollider2D>();
+            {
+                Debug.LogError("Circle Collider2D on Wheel Enemy is null");
+            }
+            Debug.Log("Wheel Enemy Instantiated");
+        }
+        else if (_name == _kamakaziEnemyString)
         {
             StartCoroutine(MovementCoolDown());
             _isKamakaziEnemy = true;
             _isRegularEnemy = false;
+            _isWheelEnemy = false;
             _circleCollider2D = GetComponent<CircleCollider2D>();
             if (_circleCollider2D == null)
             {
                 Debug.LogError("Circle Collider2D on Kamakazi Enemy is null");
             }
-        }else if (_name == _regularEnemyString)
+        }
+        else if (_name == _regularEnemyString)
         {
             _boxCollider2D = GetComponent<BoxCollider2D>();
             if (_boxCollider2D == null)
             {
                 Debug.LogError("BoxCollider2D on Enemy is null");
+            }
+
+            if (_enemyRare == Random.Range(0, 5))
+            {
+                _shieldVisualizer.SetActive(true);
+                _isShieldActive = true;
             }
         }
 
@@ -105,7 +121,7 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(_movementWait);
             _speed = 0;
             yield return new WaitForSeconds(_movementWait);
-            _speed = _originalSpeed;
+            _speed = _originalSpeed / 2;
         }
 
     }
@@ -119,11 +135,16 @@ public class Enemy : MonoBehaviour
         }
         else if (_isKamakaziEnemy)
         {
-            SmartEnemyMovement();
+            KamakaziEnemyMovement();
         }
-    }
+        else if (_isWheelEnemy)
+        {
+            WheelMovement();
+        }
+    }       
+    
 
-    private void SmartEnemyMovement()
+    private void KamakaziEnemyMovement()
     {
         if (_player != null)
         {
@@ -160,10 +181,31 @@ public class Enemy : MonoBehaviour
         FireRegularLaser();
     }
 
-    public bool IsPlayerDead()
+
+
+    private void WheelMovement()
     {
-        _playerDead = true;
-        return _playerDead;
+        transform.Translate(new Vector3(_horizontal, _vertical, 0) * _speed * Time.deltaTime);
+        if (transform.position.x > 10)
+        {
+            _horizontal = -1;
+        }
+        else if (transform.position.x < -10)
+        {
+            _horizontal = 1;
+
+        }
+
+        if (transform.position.y < -6.5f)
+        {
+            _vertical = 1;
+        }
+        else if (transform.position.y > 6.5f)
+        {
+            _vertical = -1;
+        }
+
+
     }
 
     void FireRegularLaser()
@@ -172,7 +214,7 @@ public class Enemy : MonoBehaviour
         {
             _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
-            GameObject _Laser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            GameObject _Laser = Instantiate(_RegularEnemyLaserPrefab, transform.position, Quaternion.identity);
             _Laser.transform.parent = transform;
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             Laser[] lasers = _Laser.GetComponentsInChildren<Laser>();
@@ -227,9 +269,7 @@ public class Enemy : MonoBehaviour
                     _player.SetScore(_enemyScoreValue);
                 }
                 KillEnemy();
-            }
-            
-
+            }    
         }
     }
 }
