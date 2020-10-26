@@ -49,18 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea56142240a6b847b4b43288b8f5825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 6885627168094761958}
-  _laserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
+  _enemyLaserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
     type: 3}
+  _wheelBulletPrefab: {fileID: 0}
   _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
-  _maxFireRate: 5
-  _minFireRate: 3
   _explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
-  _enemyScoreValue: 10
   _laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _shieldHitClip: {fileID: 8300000, guid: a841e8c2a8fee0e4e97c9f0534f5885e, type: 3}
   _shieldVisualizer: {fileID: 2118433515503694413}
+  _enemyScoreValue: 10
 --- !u!212 &5598573416191362417
 SpriteRenderer:
   m_ObjectHideFlags: 0

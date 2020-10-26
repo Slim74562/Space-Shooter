@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
+    private Player _player;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +17,12 @@ public class Asteroid : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         if(_spawnManager == null)
         {
-            Debug.LogError("Spawn Manager is Null");
+            Debug.LogError("Spawn Manager on Asteroid is Null");
+        }
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Player on Asteroid is Null");
         }
     }
 
@@ -29,22 +35,28 @@ public class Asteroid : MonoBehaviour
     private void DestroyAsteroid()
     {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-        GameObject.Find("Canvas").GetComponent<UIManager>().UpdateWave(_spawnManager.GetWaveCount().ToString());
-        Destroy(this.gameObject, 0.25f);
+        if (_spawnManager.GetSpawnStatus())
+        {
+            _player.ReloadAmmo();
+            _player.ExtraLife();
+            GameObject.Find("Canvas").GetComponent<UIManager>().UpdateWave(_spawnManager.GetWaveCount().ToString());
+        }
+        Destroy(gameObject, 0.25f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Laser")
+        if (other.CompareTag("Laser"))
         {
             if (!other.GetComponent<Laser>().IsEnemyLaser())
             {
+                GetComponent<CircleCollider2D>().enabled = false;
                 Destroy(other.gameObject);
                 DestroyAsteroid();
             }          
         }
 
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().Damage();
             DestroyAsteroid();

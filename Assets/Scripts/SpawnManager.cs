@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
     private float _maxEnemySpawnTime = 5.0f;
     private float _minPowerupSpawnTime = 5f;
     private float _maxPowerupSpawnTime = 10.0f;
-    private bool _stopSpawning = false;
+    private bool _stopSpawning = true;
     private int _powerupCount = 4;
     private int _lastIndex;
     private int _rareCount;
@@ -21,9 +21,11 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _enemyPrefabs;
     [SerializeField]
     private GameObject _asteroidPrefab;
-    private int _waveCount = 3;
+    private int _waveCount = 1;
     private int _maxEnemyCount = 0;
     private int _enemyCount = 0;
+    private bool _isPlayerDead = false;
+    
 
     public void StartSpawning()
     {
@@ -37,22 +39,28 @@ public class SpawnManager : MonoBehaviour
         return _waveCount;
     }
 
+    public bool GetSpawnStatus()
+    {
+        return _stopSpawning;
+    }
+
     IEnumerator SpawnEnemyRoutine()  //using IEnumerator allows for use of yield keyword ** Coroutine
     {
         yield return new WaitForSeconds(1.5f);
-        _maxEnemyCount = 7 * _waveCount;
+        _maxEnemyCount = 5 * _waveCount;
         while (!_stopSpawning)
         {
             _enemyCount++;
             if (_enemyCount <= _maxEnemyCount)
             {
-                Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 5, 0);
+                Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 5, 0);
                 GameObject newEnemy;
-                if (Random.Range(0,1) == 0 && _waveCount > 2)
+                int randomNum = Random.Range(0, (12 - _waveCount));
+                if (randomNum == 0 && _waveCount > 1)
                 {
                     newEnemy = Instantiate(_enemyPrefabs[2], posToSpawn, Quaternion.identity);
                 }
-                if (Random.Range(0, 3) == 0 && _waveCount > 1)
+                else if (randomNum == 1 && _waveCount > 2)
                 {
                     newEnemy = Instantiate(_enemyPrefabs[1], posToSpawn, Quaternion.identity);
                 }
@@ -72,17 +80,19 @@ public class SpawnManager : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");        
         while (enemies.Length != 0)
         {
-            Debug.Log("Enemies left: " + enemies.Length);
             yield return new WaitForSeconds(.5f);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
         }
-        _waveCount++;
-        Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
-        waveText.text = "Wave Complete";
-        waveText.enabled = true;
-        yield return new WaitForSeconds(1f);
-        waveText.enabled = false;
-        Instantiate(_asteroidPrefab, new Vector3(0, 4.5f, 0), Quaternion.identity);
+        if (!_isPlayerDead)
+        {
+            _waveCount++;
+            Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
+            waveText.text = "Wave Complete";
+            waveText.enabled = true;
+            yield return new WaitForSeconds(1.5f);
+            waveText.enabled = false;
+            Instantiate(_asteroidPrefab, new Vector3(0, 4.5f, 0), Quaternion.identity);
+        }        
         StopCoroutine(SpawnPowerupRoutine());
         StopCoroutine(SpawnEnemyRoutine());
     }
@@ -125,29 +135,35 @@ public class SpawnManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
-        GameObject[] _enemies, _powerups;
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        _powerups = GameObject.FindGameObjectsWithTag("Powerup");
-        if (_enemies == null || _powerups == null)
+        _isPlayerDead = true;
+        GameObject[] enemies, powerups, lasers;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        powerups = GameObject.FindGameObjectsWithTag("Powerup");
+        lasers = GameObject.FindGameObjectsWithTag("Laser");
+        if (enemies == null || powerups == null)
         {
             Debug.Log("GameObject Array in SpawnManager is null");
-        }
-        foreach (GameObject enemy in _enemies)
+        }        
+        foreach (GameObject enemy in enemies)
         {
             enemy.GetComponent<Enemy>().KillEnemy();
         }
-        _enemies = null;
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (_enemies != null)
+        enemies = null;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies != null)
         {
-            foreach (GameObject enemy in _enemies)
+            foreach (GameObject enemy in enemies)
             {
                 enemy.GetComponent<Enemy>().KillEnemy();
             }
         }
-        foreach (GameObject powerup in _powerups)
+        foreach (GameObject powerup in powerups)
         {
             Destroy(powerup);
+        }
+        foreach (GameObject laser in lasers)
+        {
+            Destroy(laser);
         }
     }
 }

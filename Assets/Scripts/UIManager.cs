@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
         _waveText.color = Color.blue;
         _waveText.enabled = true;
         yield return new WaitForSeconds(1f);
-        _waveText.color = Color.white;
+        _waveText.color = new Color(114, 0, 0, 150);
         _waveText.enabled = false;
         GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnManager>().StartSpawning();
     }

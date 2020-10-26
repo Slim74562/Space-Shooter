@@ -357,7 +357,7 @@ public class Player : MonoBehaviour
 
     void CalculateMovement()
     {
-        float xMax = 11;
+        float xMax = 15;
         if (!_isPlayerFrozen)
         {
             float horizontalInput = Input.GetAxis("Horizontal");
