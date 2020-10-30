@@ -208,6 +208,8 @@ MonoBehaviour:
   _shieldVisualizer: {fileID: 3291116728828169961}
   _fireballPrefab: {fileID: 4962300659069385378, guid: 4d47d16f67c7671499e39a8846018db8,
     type: 3}
+  _homingMissilePrefab: {fileID: 4794304593820198462, guid: 23532a317055f4a498842464a6a5bcd3,
+    type: 3}
   _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
   _leftEngine: {fileID: 3291116728420852865}
@@ -217,6 +219,7 @@ MonoBehaviour:
   _outOfAmmoClip: {fileID: 8300000, guid: eb949f37101498a4ca24a130827c80e2, type: 3}
   _fireballClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
   _shieldHitClip: {fileID: 8300000, guid: a841e8c2a8fee0e4e97c9f0534f5885e, type: 3}
+  _homingMissileClip: {fileID: 8300000, guid: 2cfca19618262e5499134c0647dd0c1d, type: 3}
   _powerupDuration: 10
 --- !u!61 &3291116728166602999
 BoxCollider2D:

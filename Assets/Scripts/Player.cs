@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     private GameObject _shieldVisualizer;
     [SerializeField]
     private GameObject _fireballPrefab;
+    [SerializeField]
+    private GameObject _homingMissilePrefab;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _shieldHitClip;
     [SerializeField]
+    private AudioClip _homingMissileClip;
+    [SerializeField]
     private float _powerupDuration = 10f;
     private bool _isDamageAvail = true;
     private GameManager _gameManager;
@@ -66,6 +70,7 @@ public class Player : MonoBehaviour
     private CamShake _camera;
     private Powerup _powerup;
     private bool _isPlayerFrozen = false;
+    private bool _hasHomingMissile = true;
 
     // Start is called before the first frame update
     void Start()
@@ -237,6 +242,11 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLives(_lives);
     }
+    
+    public void RecieveHomingMissile()
+    {
+        _hasHomingMissile = true;
+    }
         
     IEnumerator TripleShotPowerDownRoutine()
     {
@@ -331,6 +341,7 @@ public class Player : MonoBehaviour
             _audioSource.volume = 0.05f;
             _audioSource.Play();
         }
+        
         if (Input.GetKeyDown(KeyCode.Z) && _haveFireball)
         {
             _audioSource.clip = _fireballClip;
@@ -339,6 +350,15 @@ public class Player : MonoBehaviour
             Instantiate(_fireballPrefab, transform.position + new Vector3(0, 1.75f, 0), Quaternion.identity);
             _haveFireball = false;
             _uiManager.UpdateFireball(_haveFireball);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.X) && _hasHomingMissile)
+        {
+            _audioSource.clip = _homingMissileClip;
+            _audioSource.volume = 0.5f;
+            _audioSource.Play();
+            Instantiate(_homingMissilePrefab, transform.position + new Vector3(0, 1.75f, 0), Quaternion.identity);
+            //_hasHomingMissile = false;
         }
         _uiManager.UpdateAmmo(_ammoCount);
     }
