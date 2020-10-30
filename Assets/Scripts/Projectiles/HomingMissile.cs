@@ -14,7 +14,7 @@ public class HomingMissile : MonoBehaviour
     void Start()
     {
         _enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (_enemies != null)
+        if (_enemies.Length != 0)
         {
             _closestEnemy = _enemies[0];
             float leastDistance = Mathf.Infinity;
@@ -29,6 +29,10 @@ public class HomingMissile : MonoBehaviour
 
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("Enemy array on Homing Missile is null");
         }
 
     }
