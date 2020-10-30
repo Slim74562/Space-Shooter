@@ -3,7 +3,21 @@ guid: 0502b82fc9a696b4691340f4ca856f63
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _LaserPrefab: {fileID: 3000865201412217571, guid: 617d3069848043b4bba2879c8c19f7c9,
+      type: 3}
+  - _tripleShotPrefab: {fileID: 228573461589342868, guid: a725171f1a4a50b4ba0e7ace473ae75e,
+      type: 3}
+  - _shieldVisualizer: {instanceID: 0}
+  - _fireballPrefab: {instanceID: 0}
+  - _explosionPrefab: {instanceID: 0}
+  - _leftEngine: {instanceID: 0}
+  - _rightEngine: {instanceID: 0}
+  - _explosionAudio: {instanceID: 0}
+  - _laserClip: {instanceID: 0}
+  - _outOfAmmoClip: {instanceID: 0}
+  - _fireballClip: {instanceID: 0}
+  - _shieldHitClip: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

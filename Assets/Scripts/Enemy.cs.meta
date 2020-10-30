@@ -4,11 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _RegularEnemyLaserPrefab: {fileID: 7292583366691322542, guid: e98532483cd42774fa612c72b2dbad52,
+  - _enemyLaserPrefab: {instanceID: 0}
+  - _wheelBulletPrefab: {fileID: 8305329548678648894, guid: 0aa9b23b7f3d6244687e217e8fba6fd4,
       type: 3}
-  - _wheelLaserPrefab: {fileID: 3000865201412217571, guid: 7887cc58afba3394181cafe6ff94c1a6,
-      type: 3}
-  - _wheelBulletPrefab: {instanceID: 0}
   - _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
       type: 3}
   - _explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

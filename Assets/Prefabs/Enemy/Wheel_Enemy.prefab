@@ -49,9 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea56142240a6b847b4b43288b8f5825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyLaserPrefab: {fileID: 3000865201412217571, guid: 7887cc58afba3394181cafe6ff94c1a6,
+  _enemyLaserPrefab: {fileID: 3000865201412217571, guid: 617d3069848043b4bba2879c8c19f7c9,
     type: 3}
-  _wheelBulletPrefab: {fileID: 0}
+  _wheelBulletPrefab: {fileID: 8305329548678648894, guid: 0aa9b23b7f3d6244687e217e8fba6fd4,
+    type: 3}
   _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
     type: 3}
   _explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

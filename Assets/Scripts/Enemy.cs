@@ -214,9 +214,10 @@ public class Enemy : MonoBehaviour
             _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
 
-            if (Random.Range(0, 3) == 3)
+            if (Random.Range(0, 3) == 1)
             {
-                Instantiate(_wheelBulletPrefab, transform.position, Quaternion.identity);
+                GameObject bullet = Instantiate(_wheelBulletPrefab, transform.position, Quaternion.identity);
+                bullet.GetComponent<Projectile>().SetEnemyProjectile(true);
             }
             else
             {
@@ -233,11 +234,11 @@ public class Enemy : MonoBehaviour
         {
             _fireRate = Random.Range(_minFireRate, _maxFireRate);
             _canFire = Time.time + _fireRate;
-            GameObject _Laser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            GameObject laser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
             AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             if (_isRegularEnemy)
             {
-                Laser[] lasers = _Laser.GetComponentsInChildren<Laser>();
+                Laser[] lasers = laser.GetComponentsInChildren<Laser>();
                 lasers[0].SetLaserType(_name);
                 lasers[1].SetLaserType(_name);
             }
@@ -281,9 +282,9 @@ public class Enemy : MonoBehaviour
             KillEnemy();
         }
 
-        if (other.CompareTag("Laser"))
+        if (other.CompareTag("Projectile"))
         {
-            if (!other.GetComponent<Laser>().IsEnemyLaser())
+            if (!other.GetComponent<Projectile>().IsEnemyProjectile())
             {
                 Destroy(other.gameObject);
                 if (_player != null && !_isShieldActive)

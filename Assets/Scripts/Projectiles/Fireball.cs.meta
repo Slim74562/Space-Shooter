@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 31c8421d0d889ac478cb823c0e156384
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _fireballShotClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

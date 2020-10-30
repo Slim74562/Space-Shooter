@@ -51,10 +51,7 @@ public class Fireball : MonoBehaviour
         {
             _speed = _enemyNullSpeed;
             transform.Translate(Vector3.up * _speed * Time.deltaTime);
-            if (transform.position.y >= 45f)
-            {
-                Destroy(this.gameObject);
-            }
+            GetComponent<Projectile>().CheckBounds();
         }
 
 

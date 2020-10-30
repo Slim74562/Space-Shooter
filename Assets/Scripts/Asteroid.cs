@@ -46,9 +46,9 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Laser"))
+        if (other.CompareTag("Projectile"))
         {
-            if (!other.GetComponent<Laser>().IsEnemyLaser())
+            if (!other.GetComponent<Projectile>().IsEnemyProjectile())
             {
                 GetComponent<CircleCollider2D>().enabled = false;
                 Destroy(other.gameObject);

@@ -7,13 +7,9 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5;
-    [SerializeField]
-    private GameObject _explosionPrefab; 
     private bool _isEnemyLaser = false;
     private bool _isWheelLaser = false;
     private GameObject _player;
-    private float _yBounds = 8f;
-    private float _xBounds = 12f;
     private Vector3 _translateDirection;
 
     private void Start()
@@ -22,7 +18,7 @@ public class Laser : MonoBehaviour
         if (_player == null)
         {
             Debug.LogError("Player on Laser is null");
-        } 
+        }
         else
         {
             float xDirection = 0.25f, yDirection = 0.25f;
@@ -50,8 +46,6 @@ public class Laser : MonoBehaviour
 
             _translateDirection = new Vector3(xDirection, yDirection);
         }
-
-        
     }
 
     // Update is called once per frame
@@ -69,19 +63,7 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        CheckBounds();
-    }
-
-    void CheckBounds()
-    {
-        if (transform.position.x > _xBounds || transform.position.x < -_xBounds)
-        {
-            Destroy(gameObject);
-        }
-        if (transform.position.y > _yBounds || transform.position.y < -_yBounds)
-        {
-            Destroy(gameObject);
-        }
+        GetComponent<Projectile>().CheckBounds();
     }
 
     void WheelMove()
@@ -92,47 +74,16 @@ public class Laser : MonoBehaviour
     void MoveUp()
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
-        if (transform.position.y >= _yBounds)
-        {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
-            Destroy(gameObject);
-        }
     }
 
     void MoveDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y <= -_yBounds)
-        {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
-            Destroy(gameObject);
-        }
-    }
-
-    public bool IsEnemyLaser()
-    {
-        if (_isEnemyLaser)
-        {
-            return true;
-        } 
-        else if (_isWheelLaser)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public void SetLaserType(string type)
     {
+        GetComponent<Projectile>().SetEnemyProjectile(true);
         switch (type)
         {
             case "Enemy(Clone)":
@@ -147,27 +98,6 @@ public class Laser : MonoBehaviour
                     _isEnemyLaser = false;
                     break;
                 }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(IsEnemyLaser())
-        {
-            if (other.CompareTag("Player"))
-            {
-                other.GetComponent<Player>().Damage();
-
-                Destroy(gameObject);
-            }
-
-            if (other.CompareTag("Powerup"))
-            {
-                Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
-                Destroy(other.gameObject);
-                Destroy(gameObject);
-            }
-
         }
     }
 }

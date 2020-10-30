@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 1547254469781816062}
   - component: {fileID: 7728003919821602545}
   - component: {fileID: -6514328913890280828}
+  - component: {fileID: 2534702395734910589}
   m_Layer: 0
   m_Name: Fireball
-  m_TagString: Fireball
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,12 +143,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4962300659069385378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ffbaaa1c6b70b47ac2fd9b6c50e38f, type: 3}
+  m_Script: {fileID: 11500000, guid: 31c8421d0d889ac478cb823c0e156384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
-  _enemyNotNullSpeed: 3
-  _enemyNullSpeed: 8
+  _speed: 5
+  _enemyNotNullSpeed: 5
+  _enemyNullSpeed: 3
   _fireballShotClip: {fileID: 8300000, guid: 3d54c1f9569a3434caf3f652e1e861c9, type: 3}
 --- !u!95 &-6514328913890280828
 Animator:
@@ -168,3 +169,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2534702395734910589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962300659069385378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5fb752f09ad854dacf5c15548ab513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
+    type: 3}

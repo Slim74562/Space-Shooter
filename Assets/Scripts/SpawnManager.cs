@@ -139,7 +139,7 @@ public class SpawnManager : MonoBehaviour
         GameObject[] enemies, powerups, lasers;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         powerups = GameObject.FindGameObjectsWithTag("Powerup");
-        lasers = GameObject.FindGameObjectsWithTag("Laser");
+        lasers = GameObject.FindGameObjectsWithTag("Projectile");
         if (enemies == null || powerups == null)
         {
             Debug.Log("GameObject Array in SpawnManager is null");
