@@ -355,7 +355,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X) && _hasHomingMissile)
         {
             _audioSource.clip = _homingMissileClip;
-            _audioSource.volume = 0.5f;
+            _audioSource.volume = 0.15f;
             _audioSource.Play();
             Instantiate(_homingMissilePrefab, transform.position + new Vector3(0, 1.75f, 0), Quaternion.identity);
             //_hasHomingMissile = false;

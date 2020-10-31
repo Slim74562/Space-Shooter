@@ -9,6 +9,7 @@ public class HomingMissile : MonoBehaviour
     private float _speed = 3;
     private GameObject[] _enemies;
     private GameObject _closestEnemy;
+    private Vector3 _direction;
 
     // Start is called before the first frame update
     void Start()
@@ -43,13 +44,14 @@ public class HomingMissile : MonoBehaviour
         Move();
     }
 
+
     void Move()
     {
 
         if (_closestEnemy != null)
         {
-            Vector3 direction = _closestEnemy.transform.position - transform.position;
-            transform.Translate(direction * _speed * Time.deltaTime);
+            _direction = _closestEnemy.transform.position - transform.position;
+            transform.Translate(_direction * _speed * Time.deltaTime);
         }
         else
         {
