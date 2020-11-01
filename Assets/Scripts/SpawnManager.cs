@@ -11,8 +11,8 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _powerups;
     private float _minEnemySpawnTime = 3.0f;
     private float _maxEnemySpawnTime = 5.0f;
-    private float _minPowerupSpawnTime = 5f;
-    private float _maxPowerupSpawnTime = 10.0f;
+    private float _minPowerupSpawnTime = 3.0f;
+    private float _maxPowerupSpawnTime = 5.0f;
     private bool _stopSpawning = true;
     private int _powerupCount = 4;
     private int _lastIndex;
@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
     private int _maxEnemyCount = 0;
     private int _enemyCount = 0;
     private bool _isPlayerDead = false;
-    
+    private bool _keepPowerupSpawn = false;
 
     public void StartSpawning()
     {
@@ -74,7 +74,8 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 _enemyCount = 0;
-                _stopSpawning = true;       
+                _stopSpawning = true;
+                _keepPowerupSpawn = true;
             }            
         }        
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");        
@@ -85,6 +86,7 @@ public class SpawnManager : MonoBehaviour
         }
         if (!_isPlayerDead)
         {
+            _keepPowerupSpawn = false;
             _waveCount++;
             Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
             waveText.text = "Wave Complete";
@@ -100,7 +102,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnPowerupRoutine()
     {
         yield return new WaitForSeconds(9.0f);
-        while (!_stopSpawning)
+        while (!_stopSpawning || _keepPowerupSpawn)
         {
             int randomPowerUp = Random.Range(0, _powerupCount);
             while (_lastIndex == randomPowerUp)
@@ -112,7 +114,7 @@ public class SpawnManager : MonoBehaviour
             if (_powerupCount < _powerups.Length)
             {
                 _rareCount++;
-                if (_rareCount % 5 == 0)
+                if (_rareCount % 3 == 0)
                 {
                     _powerupCount++;
                 }
@@ -120,7 +122,7 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 _rareCount++;
-                if (_rareCount % 5 == 0)
+                if (_rareCount % 3 == 0)
                 {
                     _rareCount = 0;
                     _powerupCount = 4;

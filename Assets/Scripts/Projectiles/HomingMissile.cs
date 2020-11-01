@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HomingMissile : MonoBehaviour
 {
-    private float _yBounds = 8f;
-    private float _xBounds = 12f;
     private float _speed = 3;
     private GameObject[] _enemies;
     private GameObject _closestEnemy;
@@ -35,7 +33,6 @@ public class HomingMissile : MonoBehaviour
         {
             Debug.LogError("Enemy array on Homing Missile is null");
         }
-
     }
 
     // Update is called once per frame
@@ -44,10 +41,8 @@ public class HomingMissile : MonoBehaviour
         Move();
     }
 
-
     void Move()
     {
-
         if (_closestEnemy != null)
         {
             _direction = _closestEnemy.transform.position - transform.position;
@@ -57,21 +52,5 @@ public class HomingMissile : MonoBehaviour
         {
             transform.Translate(Vector3.up * _speed * Time.deltaTime);
         }
-
-        CheckBounds();
-
-
-    }
-
-    void CheckBounds()
-    {
-        if (transform.position.x > _xBounds || transform.position.x < -_xBounds)
-        {
-            Destroy(gameObject);
-        }
-        if (transform.position.y > _yBounds || transform.position.y < -_yBounds)
-        {
-            Destroy(gameObject);
-        }
-    }
+    }   
 }

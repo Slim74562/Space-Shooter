@@ -63,7 +63,6 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        GetComponent<Projectile>().CheckBounds();
     }
 
     void WheelMove()

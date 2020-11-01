@@ -56,21 +56,16 @@ public class Player : MonoBehaviour
     private float _powerupDuration = 10f;
     private bool _isDamageAvail = true;
     private GameManager _gameManager;
-    private int _pointCount = 1;
     private int _ammoCount = 15;
     private SpriteRenderer _shieldRenderer;
     private int _shieldHit = 0;
-    private int _shieldMaxHealth = 2;
     private bool _isThrustAvail = true;
     private GameObject _thrusters;
-    private float _startTime = 0f;
-    private float _holdTime = 5.0f;
     private bool _isThrustCool = true;
     private bool _haveFireball = false;
     private CamShake _camera;
-    private Powerup _powerup;
     private bool _isPlayerFrozen = false;
-    private bool _hasHomingMissile = true;
+    private bool _hasHomingMissile = false;
 
     // Start is called before the first frame update
     void Start()
@@ -122,7 +117,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-        FireLaser();
+        FireWeapons();
     }
 
     private void CamShake(float shakeDuration)
@@ -243,9 +238,10 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLives(_lives);
     }
     
-    public void RecieveHomingMissile()
+    public void HomingMissile()
     {
         _hasHomingMissile = true;
+        _uiManager.UpdateHomingMissile(_hasHomingMissile);
     }
         
     IEnumerator TripleShotPowerDownRoutine()
@@ -318,7 +314,7 @@ public class Player : MonoBehaviour
         StartCoroutine(ThrusterCoolDown());
     }
 
-    void FireLaser()
+    void FireWeapons()
     {
         // Ammo Count Phase 1
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
@@ -354,11 +350,12 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.X) && _hasHomingMissile)
         {
+            _hasHomingMissile = false;
+            _uiManager.UpdateHomingMissile(_hasHomingMissile);
             _audioSource.clip = _homingMissileClip;
             _audioSource.volume = 0.15f;
             _audioSource.Play();
             Instantiate(_homingMissilePrefab, transform.position + new Vector3(0, 1.75f, 0), Quaternion.identity);
-            //_hasHomingMissile = false;
         }
         _uiManager.UpdateAmmo(_ammoCount);
     }

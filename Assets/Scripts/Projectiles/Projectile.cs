@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Projectile : MonoBehaviour
 {
@@ -9,6 +10,17 @@ public class Projectile : MonoBehaviour
     private GameObject _explosionPrefab;
     private float _yBounds = 8f;
     private float _xBounds = 12f;
+    private Player _player;
+
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
+    private void Update()
+    {
+        CheckBounds();
+    }
 
     public bool IsEnemyProjectile()
     {
@@ -48,6 +60,10 @@ public class Projectile : MonoBehaviour
             {
                 other.GetComponent<Player>().Damage();
 
+                if (transform.parent != null)
+                {
+                    Destroy(transform.parent.gameObject);
+                }
                 Destroy(gameObject);
             }
 

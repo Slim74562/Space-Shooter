@@ -176,7 +176,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y < -_yBounds)
         {
-            transform.position = new Vector3(Random.Range(-_xBounds + 0.25f, _xBounds - 0.25f), _yBounds, 0);
+            transform.position = new Vector3(Random.Range(-_xBounds + 0.25f, _xBounds - 0.25f), _yBounds - 0.25f, 0);
         }
 
         FireRegularLaser();

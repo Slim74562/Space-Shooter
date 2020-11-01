@@ -51,10 +51,7 @@ public class Fireball : MonoBehaviour
         {
             _speed = _enemyNullSpeed;
             transform.Translate(Vector3.up * _speed * Time.deltaTime);
-            GetComponent<Projectile>().CheckBounds();
         }
-
-
     }
 
     IEnumerator WaitforArray()

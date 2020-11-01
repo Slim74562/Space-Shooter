@@ -44,6 +44,7 @@ public class Powerup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Debug.Log(transform.name + "Powerup Collected");
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
@@ -69,6 +70,9 @@ public class Powerup : MonoBehaviour
                         player.ExtraLife();
                         break;
                     case 6:
+                        player.HomingMissile();
+                        break;
+                    case 7:
                         player.Fireball();
                         break;
                 }

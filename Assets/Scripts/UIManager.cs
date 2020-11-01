@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image _livesImg;
     [SerializeField]
+    private Image _homingMissileImg;
+    [SerializeField]
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
@@ -104,6 +106,18 @@ public class UIManager : MonoBehaviour
             _fireballImage.enabled = false;
         }
 
+    }
+
+    public void UpdateHomingMissile(bool has)
+    {
+        if (has)
+        {
+            _homingMissileImg.enabled = true;
+        }
+        else
+        {
+            _homingMissileImg.enabled = false;
+        }
     }
 
     void GameOverSequence()

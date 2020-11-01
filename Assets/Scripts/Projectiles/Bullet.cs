@@ -30,7 +30,6 @@ public class Bullet : MonoBehaviour
     {
         _translateDirection = _playerTransform.position - transform.position;
         this.transform.Translate(_translateDirection * _speed * Time.deltaTime);
-        GetComponent<Projectile>().CheckBounds();
     }
 
 }
