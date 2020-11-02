@@ -74,5 +74,14 @@ public class Projectile : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        else
+        {
+            if (other.CompareTag("Projectile"))
+            {
+                Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
+        }
     }
 }

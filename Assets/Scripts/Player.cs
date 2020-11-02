@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
     private CamShake _camera;
     private bool _isPlayerFrozen = false;
     private bool _hasHomingMissile = false;
+    private bool _canMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -370,6 +371,7 @@ public class Player : MonoBehaviour
     {
         _isPlayerFrozen = true;
         _thrusters.GetComponent<SpriteRenderer>().color = Color.blue;
+        StartCoroutine(FrozenPlayerPowerDownRoutine());
     }
 
     void CalculateMovement()
@@ -402,10 +404,6 @@ public class Player : MonoBehaviour
 
             Thrusters();
 
-        }
-        else
-        {
-            StartCoroutine(FrozenPlayerPowerDownRoutine());
         }
 
     }

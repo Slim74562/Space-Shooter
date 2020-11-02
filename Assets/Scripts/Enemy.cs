@@ -218,6 +218,7 @@ public class Enemy : MonoBehaviour
             {
                 GameObject bullet = Instantiate(_wheelBulletPrefab, transform.position, Quaternion.identity);
                 bullet.GetComponent<Projectile>().SetEnemyProjectile(true);
+                AudioSource.PlayClipAtPoint(_laserClip, transform.position);
             }
             else
             {

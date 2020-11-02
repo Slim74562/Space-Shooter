@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: cea22dd4d75a2a5489b98eadaee6b223
+guid: 07ec2c9aa3deff34c90b50e3d4bb6235
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _enemyContainer: {instanceID: 0}
-  - _asteroidPrefab: {fileID: 3865913023005067272, guid: 6d823a827de25a045ad88e8d2d1eb8cf,
+  - _explosionPrefab: {fileID: 1166085236348140717, guid: 0f51781d12d8c3844b4e1cffff60d75d,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

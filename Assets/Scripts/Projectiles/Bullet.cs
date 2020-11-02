@@ -5,9 +5,11 @@ using UnityEngine.Analytics;
 
 public class Bullet : MonoBehaviour
 {
-    private int _speed = 3;
+    private int _speed = 1;
     private Transform _playerTransform;
     private Vector3 _translateDirection;
+    [SerializeField]
+    private GameObject _explosionPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,5 @@ public class Bullet : MonoBehaviour
     {
         _translateDirection = _playerTransform.position - transform.position;
         this.transform.Translate(_translateDirection * _speed * Time.deltaTime);
-    }
-
+    }    
 }

@@ -11,6 +11,7 @@ TagManager:
   - Dying
   - Bullet
   - Projectile
+  - Beam
   layers:
   - Default
   - TransparentFX
