@@ -283,11 +283,14 @@ public class Enemy : MonoBehaviour
             KillEnemy();
         }
 
-        if (other.CompareTag("Projectile"))
+        if (other.CompareTag("Projectile") )
         {
             if (!other.GetComponent<Projectile>().IsEnemyProjectile())
             {
-                Destroy(other.gameObject);
+                if (!other.name.Equals("Fireball(Clone)"))
+                {
+                    Destroy(other.gameObject);
+                }
                 if (_player != null && !_isShieldActive)
                 {
                     _player.SetScore(_enemyScoreValue);

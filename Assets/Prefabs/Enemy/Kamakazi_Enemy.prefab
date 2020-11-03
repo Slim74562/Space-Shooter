@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3734060664520527711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 5, y: 5, z: 0}
   m_Children:
   - {fileID: 1505298844265406598}
   m_Father: {fileID: 0}
@@ -123,7 +123,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.15
+  m_Radius: 0.09160487
 --- !u!114 &1169473649521358919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 9218966789911801805, guid: 632d1e8418044f54f95c3a4e922a78d3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9218966789911801806, guid: 632d1e8418044f54f95c3a4e922a78d3,
         type: 3}
@@ -317,12 +317,12 @@ PrefabInstance:
     - target: {fileID: 9218966789911801806, guid: 632d1e8418044f54f95c3a4e922a78d3,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9218966789911801806, guid: 632d1e8418044f54f95c3a4e922a78d3,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9218966789911801806, guid: 632d1e8418044f54f95c3a4e922a78d3,
         type: 3}

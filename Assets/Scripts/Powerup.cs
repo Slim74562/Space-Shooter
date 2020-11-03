@@ -44,7 +44,6 @@ public class Powerup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log(transform.name + "Powerup Collected");
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {

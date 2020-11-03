@@ -76,7 +76,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            if (other.CompareTag("Projectile"))
+            if (other.CompareTag("Projectile") && !other.name.Equals("Fireball(Clone)"))
             {
                 Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
                 Destroy(other.gameObject);

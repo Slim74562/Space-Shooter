@@ -23,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject _bossPrefab;
     [SerializeField]
     private GameObject _asteroidPrefab;
-    private int _waveCount = 5;
+    private int _waveCount = 1;
     private int _maxEnemyCount = 0;
     private int _enemyCount = 0;
     private bool _isPlayerDead = false;
@@ -57,6 +57,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 4, 0);
             newEnemy = Instantiate(_bossPrefab, posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+            _stopSpawning = true;
             _keepPowerupSpawn = true;
         }
         else
@@ -91,26 +92,27 @@ public class SpawnManager : MonoBehaviour
                     _keepPowerupSpawn = true;
                 }
             }
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            while (enemies.Length != 0)
-            {
-                yield return new WaitForSeconds(.5f);
-                enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            }
-            if (!_isPlayerDead)
-            {
-                _keepPowerupSpawn = false;
-                _waveCount++;
-                Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
-                waveText.text = "Wave Complete";
-                waveText.enabled = true;
-                yield return new WaitForSeconds(1.5f);
-                waveText.enabled = false;
-                Instantiate(_asteroidPrefab, new Vector3(0, 4.5f, 0), Quaternion.identity);
-            }
-            StopCoroutine(SpawnPowerupRoutine());
-            StopCoroutine(SpawnEnemyRoutine());
         }
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        while (enemies.Length != 0)
+        {
+            yield return new WaitForSeconds(.5f);
+            enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        }
+        if (!_isPlayerDead)
+        {
+            _keepPowerupSpawn = false;
+            _waveCount++;
+            Text waveText = GameObject.Find("WaveText").GetComponent<Text>();
+            waveText.text = "Wave Complete";
+            waveText.enabled = true;
+            yield return new WaitForSeconds(1.5f);
+            waveText.enabled = false;
+            Instantiate(_asteroidPrefab, new Vector3(0, 4.5f, 0), Quaternion.identity);
+        }
+        StopCoroutine(SpawnPowerupRoutine());
+        StopCoroutine(SpawnEnemyRoutine());
+
     }
 
     IEnumerator SpawnPowerupRoutine()
